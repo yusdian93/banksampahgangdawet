@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Manajemen Bank Sampah Pro</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-dark: #3f5443; /* Hijau sage tua elegan untuk judul/teks utama */
+            --primary-main: #6b8e72; /* Hijau sage lembut untuk tombol-tombol utama */
+            --primary-light: #a4c3a9; /* Hijau pastel untuk sorotan/highlight */
+            --bg-color: #f5f2eb; /* Latar belakang warna krem hangat */
+            --text-main: #2d332e; /* Teks warna abu-abu kehitaman (lebih soft dari hitam pekat) */
+            --text-muted: #79827b; /* Teks sekunder yang redup dan nyaman dibaca */
+            --card-bg: #ffffff; /* Kotak/kartu tetap putih murni agar kontras dengan latar krem */
+            --border-color: #e6e2d6; /* Garis pembatas warna krem sedikit lebih gelap */
+            /* WARNA LOGO WHATSAPP ASLI */
+            --whatsapp-green: #25D366; 
+            --whatsapp-dark: #128C7E;
+        }
+        body { 
+            background-color: var(--bg-color); 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: var(--text-main); 
+            -webkit-font-smoothing: antialiased;
+        }
+        .nav-wrapper { padding: 20px; position: sticky; top: 0; z-index: 1000; }
+        .navbar { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); 
+            padding: 12px 24px; border: 1px solid rgba(255, 255, 255, 1);
+        }
+        .navbar-brand { font-weight: 800; letter-spacing: -0.5px; color: var(--primary-dark) !important; font-size: 1.25rem; }
+        .navbar-brand i { color: var(--primary-main); background: rgba(16, 185, 129, 0.1); padding: 8px; border-radius: 12px; }
+        .nav-link { color: var(--text-muted) !important; font-weight: 600; transition: all 0.3s; padding: 10px 18px !important; border-radius: 14px; margin: 0 4px; font-size: 0.9rem; cursor: pointer; }
+        .nav-link:hover { color: var(--primary-main) !important; background-color: rgba(16, 185, 129, 0.05); }
+        .nav-link.active-tab { color: #ffffff !important; background: linear-gradient(135deg, var(--primary-main), var(--primary-dark)); box-shadow: 0 8px 16px rgba(5, 150, 105, 0.25); }
+        .nav-link.rekap-tab { border: 1px solid var(--border-color); color: var(--text-main) !important; }
+        .nav-link.rekap-tab.active-tab { border: none; }
+        .card { border: 1px solid rgba(226, 232, 240, 0.8); border-radius: 24px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.02); background: var(--card-bg); margin-top: 25px; transition: 0.3s; }
+        .card:hover { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05); }
+        .stat-box { background: #ffffff; border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; position: relative; overflow: hidden; transition: 0.3s; }
+        .stat-box::before { content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--primary-main); border-radius: 20px 0 0 20px; }
+        .stat-title { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-value { font-size: 2rem; font-weight: 800; color: var(--text-main); margin-top: 8px; letter-spacing: -1px; }
+        .stat-value.text-green { color: var(--primary-main); }
+        .form-control, .form-select { border-radius: 14px; padding: 14px 18px; border: 1px solid var(--border-color); background-color: #f8fafc; font-size: 0.95rem; font-weight: 500; color: var(--text-main); }
+        .form-control:focus, .form-select:focus { background-color: #ffffff; border-color: var(--primary-light); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
+        label { font-weight: 600; color: var(--text-main); margin-bottom: 10px; font-size: 0.9rem; }
+        .btn { border-radius: 14px; padding: 12px 24px; font-weight: 600; letter-spacing: 0.3px; transition: 0.3s; }
+        .btn-success { background: linear-gradient(135deg, var(--primary-main), var(--primary-dark)); border: none; box-shadow: 0 8px 16px rgba(5, 150, 105, 0.2); }
+        .btn-success:hover { transform: translateY(-2px); box-shadow: 0 12px 20px rgba(5, 150, 105, 0.3); }
+        .btn-outline-danger { border: 1px solid #fee2e2; color: #ef4444; background: #fef2f2; }
+        .btn-outline-danger:hover { background: #ef4444; color: white; border-color: #ef4444; }
+        .btn-outline-primary { border: 1px solid #e0e7ff; color: #4f46e5; background: #eef2ff; }
+        .btn-outline-primary:hover { background: #4f46e5; color: white; border-color: #4f46e5; }
+/* Tombol Kustom Warna WhatsApp Outline */
+        .btn-outline-wa {
+            color: var(--whatsapp-green) !important;
+            border-color: var(--whatsapp-green) !important;
+            background-color: transparent !important;
+        }
+        .btn-outline-wa:hover {
+            color: white !important;
+            background-color: var(--whatsapp-green) !important;
+            border-color: var(--whatsapp-green) !important;
+        }
+        .table-responsive { border-radius: 16px; border: 1px solid var(--border-color); background: #ffffff; }
+        .table { margin-bottom: 0; vertical-align: middle; }
+        .table thead th { background-color: #f8fafc; color: var(--text-muted); font-weight: 700; border-bottom: 1px solid var(--border-color); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; padding: 16px; }
+        .table td { padding: 16px; border-bottom: 1px solid #f1f5f9; color: var(--text-main); }
+        .badge-sampah { background-color: #ecfdf5; color: var(--primary-dark); padding: 6px 12px; border-radius: 10px; font-size: 0.8rem; font-weight: 700; border: 1px solid #a7f3d0; }
+        .app-title { font-weight: 800; color: var(--primary-dark); letter-spacing: -1px; font-size: 1.8rem; }
+        .app-subtitle { color: var(--text-muted); font-weight: 500; letter-spacing: 0.5px; font-size: 0.95rem; }
+        #area-laporan-a4 { display: none; }
+        @media print {
+            body.mode-cetak * { visibility: hidden; }
+            body.mode-cetak #area-laporan-a4, body.mode-cetak #area-laporan-a4 * { visibility: visible; }
+            body.mode-cetak #area-laporan-a4 { display: block; position: absolute; left: 0; top: 0; width: 100%; padding: 10px; background: white; color: black; }
+            body.mode-bukubesar * { visibility: hidden; }
+            body.mode-bukubesar #bukubesar, body.mode-bukubesar #bukubesar * { visibility: visible; }
+            body.mode-bukubesar #bukubesar { position: absolute; left: 0; top: 0; width: 100%; background: white;}
+            body.mode-bukubesar .btn { display: none !important; }
+            body.mode-bukubesar .card { box-shadow: none; border: 1px solid #ccc; margin-top:0; border-radius: 0; }
+            @page { margin: 15mm; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="nav-wrapper">
+    <nav class="navbar navbar-expand-lg container">
+        <div class="container-fluid px-2">
+            <span class="navbar-brand d-flex align-items-center">
+                <i class="bi bi-recycle fs-5 me-2"></i> Sistem Bank Sampah
+            </span>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list fs-1 text-dark"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mt-3 mt-lg-0 align-items-center">
+                    <li class="nav-link nav-btn active-tab" onclick="showTab('dashboard', this)"><i class="bi bi-grid-1x2 me-2"></i>Dashboard</li>
+                    <li class="nav-link nav-btn" onclick="showTab('nasabah', this)"><i class="bi bi-people me-2"></i>Nasabah</li>
+                    <li class="nav-link nav-btn" onclick="showTab('setor', this)"><i class="bi bi-box-arrow-in-down me-2"></i>Setor</li>
+                    <li class="nav-link nav-btn" onclick="showTab('ceksaldo', this)"><i class="bi bi-wallet2 me-2"></i>Cek Saldo</li>
+                    <li class="nav-link nav-btn" onclick="showTab('bukubesar', this)"><i class="bi bi-journal-bookmark-fill me-2"></i>Buku Besar</li>
+                    <li class="nav-link nav-btn" onclick="showTab('jadwal', this)"><i class="bi bi-calendar-event me-2"></i>Jadwal</li>
+                    <li class="nav-link nav-btn rekap-tab ms-lg-3" onclick="showTab('laporan', this)"><i class="bi bi-bar-chart-fill me-2"></i>Rekapitulasi</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div id="area-laporan-a4"></div>
+
+<div class="container pb-5">
+    
+    <div id="dashboard" class="tab-content" style="display:block;">
+        <div class="text-center mt-4 mb-5">
+            <h4 class="app-title">Bank Sampah GANG DAWET</h4>
+            <h6 class="app-subtitle">Dashboard Pengelolaan Mandiri & Akuntansi Persediaan</h6>
+        </div>
+        
+        <div class="row mt-4 g-4">
+            <div class="col-6 col-md-4">
+                <div class="stat-box text-center">
+                    <div class="stat-title">Total Transaksi</div>
+                    <div class="stat-value" id="dash-transaksi">Memuat...</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="stat-box text-center">
+                    <div class="stat-title">Nasabah Aktif</div>
+                    <div class="stat-value" id="dash-nasabah">0</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="stat-box text-center">
+                    <div class="stat-title">Kewajiban Saldo (Rp)</div>
+                    <div class="stat-value text-green" id="dash-rupiah">Rp 0</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card p-4 p-md-5 mt-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="m-0 fw-bold" style="color: var(--primary-dark);"><i class="bi bi-clock-history me-2 text-success"></i>Riwayat Transaksi Terbaru</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Waktu Transaksi</th>
+                            <th>Identitas Nasabah</th>
+                            <th>Aktivitas / Material</th>
+                            <th>Total Nominal</th>
+                            <th class="text-center">Aksi Struk</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-riwayat"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="nasabah" class="tab-content" style="display:none;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card p-4 p-md-5">
+                    <h5 class="fw-bold mb-4" style="color: var(--primary-dark);"><i class="bi bi-person-plus me-2 text-success"></i>Registrasi Nasabah Baru</h5>
+                    <form id="formNasabah" onsubmit="simpanNasabah(event)">
+                        <div class="mb-4">
+                            <label>Nama Lengkap (Sesuai KTP)</label>
+                            <input type="text" id="namaNasabah" class="form-control" required>
+                        </div>
+                        <div class="mb-4">
+                            <label>Nomor WhatsApp Aktif</label>
+                            <input type="number" id="hpNasabah" class="form-control" placeholder="Contoh: 08123456789" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 py-3"><i class="bi bi-save me-2"></i>Simpan Data Nasabah</button>
+                    </form>
+                    
+                    <hr class="my-5" style="border-color: var(--border-color); opacity: 1;">
+                    
+                    <h5 class="fw-bold mb-4" style="color: var(--primary-dark);"><i class="bi bi-people me-2 text-success"></i>Daftar Anggota Terdaftar</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nama Lengkap</th>
+                                    <th>Nomor WA</th>
+                                    <th class="text-center">Manajemen</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-daftar-nasabah"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="setor" class="tab-content" style="display:none;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card p-4 p-md-5">
+                    <h5 class="fw-bold mb-4" style="color: var(--primary-dark);"><i class="bi bi-basket me-2 text-success"></i>Formulir Input Timbangan</h5>
+                    <form id="formSetor" onsubmit="simpanSetoran(event)">
+                        <div class="mb-4">
+                            <label>Identitas Nasabah</label>
+                            <select id="pilihNasabah" class="form-select" required></select>
+                        </div>
+                        <div class="mb-4">
+                            <label>Kategori Persediaan Sampah</label>
+                            <select id="pilihSampah" class="form-select" required>
+                                <option value="" disabled selected>-- Pilih Jenis Material --</option>
+                                <option value="3000">Plastik PET Bersih (Rp 3.000 / Kg)</option>
+                                <option value="2000">Kardus / Kertas Duplek (Rp 2.000 / Kg)</option>
+                                <option value="6000">Besi / Logam Bekas (Rp 6.000 / Kg)</option>
+                                <option value="500">Botol Kaca Utuh (Rp 500 / Kg)</option>
+                                <option value="1000">Organik / Kompos (Rp 1.000 / Kg)</option>
+                            </select>
+                        </div>
+                        <div class="mb-5">
+                            <label>Volume Timbangan Bersih</label>
+                            <div class="input-group">
+                                <input type="number" step="0.1" min="0.1" id="beratSampah" class="form-control" required>
+                                <span class="input-group-text bg-white fw-bold" style="border-color: var(--border-color); color: var(--text-muted);">Kg</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 py-3"><i class="bi bi-check-circle me-2"></i>Konfirmasi Setoran</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ceksaldo" class="tab-content" style="display:none;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card p-4 p-md-5">
+                    <h5 class="fw-bold mb-4" style="color: var(--primary-dark);"><i class="bi bi-wallet2 me-2 text-success"></i>Buku Tabungan Nasabah</h5>
+                    
+                    <div class="mb-4">
+                        <label>Cari Nama Nasabah</label>
+                        <select id="pilihNasabahSaldo" class="form-select" onchange="tampilkanDetailSaldo()">
+                            <option value="" disabled selected>-- Pilih Data Nasabah --</option>
+                        </select>
+                    </div>
+
+                    <div id="areaDetailSaldo" style="display:none;">
+                        <div class="row g-3 mb-4 mt-2">
+                            <div class="col-6">
+                                <div class="stat-box text-center" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
+                                    <div class="stat-title text-success">Total Saldo Rupiah</div>
+                                    <div class="stat-value text-success" id="detail-total-rp">Rp 0</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-box text-center">
+                                    <div class="stat-title">Volume Sampah (Kg)</div>
+                                    <div class="stat-value" id="detail-total-kg" style="color: var(--primary-dark);">0 Kg</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-3 mt-5 flex-wrap gap-2">
+                            <h6 class="fw-bold m-0" style="color: var(--primary-dark);"><i class="bi bi-list-check me-2 text-success"></i>Log Riwayat Transaksi</h6>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-danger px-3" onclick="cetakPdfSaldo()">
+                                    <i class="bi bi-file-earmark-pdf me-1"></i> Cetak PDF
+                                </button>
+                                <button class="btn btn-sm btn-success px-3" onclick="kirimWaSaldo()">
+                                    <i class="bi bi-whatsapp me-1"></i> Kirim WA
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Waktu Transaksi</th>
+                                        <th>Kategori Aktivitas</th>
+                                        <th class="text-center">Berat</th>
+                                        <th class="text-end">Nominal Mutasi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabel-riwayat-saldo"></tbody>
+                            </table>
+                        </div>
+
+                        <div class="mt-4 p-4" style="background: rgba(225, 29, 72, 0.05); border: 1px dashed #fda4af; border-radius: 16px;">
+                            <h6 class="fw-bold mb-3" style="color: #be123c;"><i class="bi bi-cash-stack me-2"></i>Tarik Saldo Tunai</h6>
+                            <form id="formTarikSaldo" onsubmit="tarikSaldo(event)" class="d-flex gap-3 align-items-end flex-wrap">
+                                <div class="flex-grow-1">
+                                    <label style="color: #be123c;">Nominal Penarikan (Rp)</label>
+                                    <input type="number" id="nominalTarik" class="form-control" min="500" required placeholder="Contoh: 50000" style="border-color: #fda4af;">
+                                </div>
+                                <button type="submit" class="btn btn-danger px-4" style="background: #e11d48; border: none;"><i class="bi bi-wallet2 me-2"></i>Cairkan Dana</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="bukubesar" class="tab-content" style="display:none;">
+        <div class="card p-4 p-md-5">
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                <div>
+                    <h4 class="m-0 fw-bold" style="color: var(--primary-dark);">Jurnal Umum Akuntansi</h4>
+                    <span class="app-subtitle">Pencatatan Otomatis Standar Administrasi</span>
+                </div>
+                <button class="btn btn-outline-primary px-4" onclick="cetakBukuBesar()"><i class="bi bi-printer me-2"></i> Cetak Dokumen A4</button>
+            </div>
+            <div class="alert mb-5" style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); color: var(--primary-dark); border-radius: 16px;">
+                <i class="bi bi-info-circle-fill me-2 text-success"></i><strong>Logika Sistem:</strong><br>
+                1. <strong>Setoran Nasabah:</strong> Diklasifikasikan ke akun Beban Pembelian (Debit) dan Hutang Saldo Nasabah (Kredit).<br>
+                2. <strong>Penarikan Tunai:</strong> Diklasifikasikan ke akun Hutang Saldo Nasabah (Debit) dan Kas Bank Sampah (Kredit).
+            </div>
+            <h6 class="fw-bold mb-3" style="color: var(--primary-dark);"><i class="bi bi-journal-check me-2 text-success"></i>Buku Jurnal Riwayat Transaksi</h6>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Waktu & No. Ref</th>
+                            <th>Keterangan Transaksi</th>
+                            <th>Kode & Nama Akun</th>
+                            <th class="text-end">Debit (Rp)</th>
+                            <th class="text-end">Kredit (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-jurnal-umum"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+<div id="jadwal" class="tab-content" style="display:none;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card p-4 p-md-5">
+                    <h5 class="fw-bold mb-4" style="color: var(--primary-dark);"><i class="bi bi-megaphone me-2 text-success"></i>Pengumuman Jadwal Setoran</h5>
+                    
+                    <div class="mb-4">
+                        <label>Tanggal Pelaksanaan</label>
+                        <input type="date" id="tglJadwal" class="form-control">
+                    </div>
+                    <div class="mb-4">
+                        <label>Pesan Tambahan (Opsional)</label>
+                        <textarea id="pesanTambahan" class="form-control" rows="3" placeholder="Contoh: Jangan lupa bawa karung sendiri ya, atau material sudah dipilah dari rumah."></textarea>
+                    </div>
+                    
+                    <button class="btn btn-success w-100 py-3 mb-5" onclick="buatBroadcast()"><i class="bi bi-magic me-2"></i>Buat Pesan & Tampilkan Kontak</button>
+
+                    <div id="areaBroadcast" style="display:none;">
+                        <h6 class="fw-bold mb-3" style="color: var(--primary-dark);">Pratinjau Pesan:</h6>
+                        <div class="p-3 mb-4" style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; font-size: 0.9rem; white-space: pre-wrap;" id="previewPesan"></div>
+                        
+                        <h6 class="fw-bold mb-3" style="color: var(--primary-dark);">Kirim ke Nasabah (<span id="totalKirim">0</span> Kontak):</h6>
+                        <div class="alert alert-warning" style="font-size: 0.85rem;">
+                            <i class="bi bi-info-circle me-2"></i>Karena aturan anti-spam WhatsApp, klik tombol kirim satu per satu untuk setiap nasabah.
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <tbody id="tabel-kirim-broadcast"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="laporan" class="tab-content" style="display:none;">
+        <div class="card p-4 p-md-5">
+            <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+                <div>
+                    <h4 class="m-0 fw-bold" style="color: var(--primary-dark);">Laporan Neraca & Rekapitulasi</h4>
+                    <span class="app-subtitle">Ringkasan Eksekutif Aset dan Kewajiban Berjalan</span>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success px-4" onclick="eksporExcel()"><i class="bi bi-file-earmark-spreadsheet me-2"></i> Ekspor Excel</button>
+                    <button class="btn btn-danger px-4" style="background: #e11d48; border: none; box-shadow: 0 8px 16px rgba(225, 29, 72, 0.2);" onclick="cetakLaporanA4()"><i class="bi bi-file-earmark-pdf me-2"></i> Ekspor PDF</button>
+                </div>
+            </div>
+            
+            <div class="row mt-2 g-4 mb-5">
+                <div class="col-12 col-md-6">
+                    <div class="stat-box d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="stat-title">Aset Fisik (Volume Masuk)</div>
+                            <div class="stat-value text-green"><span id="lap-sampah">0</span> Kg</div>
+                        </div>
+                        <i class="bi bi-box-seam fs-1" style="color: rgba(16, 185, 129, 0.2);"></i>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="stat-box d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="stat-title">Liabilitas (Hutang Warga)</div>
+                            <div class="stat-value text-green" id="lap-rupiah">Rp 0</div>
+                        </div>
+                        <i class="bi bi-cash-coin fs-1" style="color: rgba(16, 185, 129, 0.2);"></i>
+                    </div>
+                </div>
+            </div>
+
+            <h6 class="fw-bold mb-3" style="color: var(--primary-dark);"><i class="bi bi-pie-chart me-2 text-success"></i>Matriks Inventaris Persediaan</h6>
+            <div class="table-responsive mb-5">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Kategori Material Persediaan</th>
+                            <th>Akumulasi Volume</th>
+                            <th class="text-end">Total Valuasi Aset (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-rekap-sampah"></tbody>
+                </table>
+            </div>
+
+            <h6 class="fw-bold mb-3" style="color: var(--primary-dark);"><i class="bi bi-journal-text me-2 text-success"></i>Buku Besar Pembantu (Rincian Hutang Nasabah)</h6>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Identitas Kreditur (Nasabah)</th>
+                            <th>Total Volume Disetor</th>
+                            <th class="text-end">Sisa Saldo Mengendap (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-rekap-nasabah"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // =========================================================
+    // 1. URL GOOGLE APPS SCRIPT (PASTE URL ANDA DI SINI)
+    // =========================================================
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyCW5fCug2IiaDsqxtqwExUyVzJe_UihHyISfmUGpAgVTQOGbRnqfkUNXi3e7r_Lm8t/exec';
+    
+    let dataNasabah = [];
+    let dataTransaksi = [];
+
+    // =========================================================
+    // 2. FUNGSI DATABASE SINKRONISASI
+    // =========================================================
+    function loadDataDatabase() {
+        let btnRefresh = document.getElementById('dash-transaksi');
+        if(btnRefresh) btnRefresh.innerText = "Memuat data...";
+
+        fetch(scriptURL)
+            .then(response => response.json())
+            .then(data => {
+                dataNasabah = data.nasabah || [];
+                dataTransaksi = data.transaksi || [];
+                
+                updateTabelNasabah();
+                updateDropdownNasabah('pilihNasabah');
+                if(document.getElementById('pilihNasabahSaldo')) updateDropdownNasabah('pilihNasabahSaldo');
+                updateDashboard();
+                updateBukuBesar();
+                updateLaporan();
+                if(document.getElementById('areaDetailSaldo').style.display === 'block') tampilkanDetailSaldo();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Gagal terhubung ke server. Pastikan koneksi internet aktif.");
+            });
+    }
+
+    // Panggil saat aplikasi pertama dibuka
+    loadDataDatabase();
+
+    // =========================================================
+    // 3. FUNGSI INPUT DATA (KIRIM KE CLOUD)
+    // =========================================================
+    function simpanNasabah(e) {
+        e.preventDefault();
+        let nama = document.getElementById('namaNasabah').value.trim();
+        let hp = document.getElementById('hpNasabah').value.trim();
+        if(nama === '') return alert("Nama tidak boleh kosong!");
+        
+        let formData = new URLSearchParams();
+        formData.append('action', 'tambahNasabah');
+        formData.append('id', Date.now());
+        formData.append('nama', nama);
+        formData.append('hp', hp);
+
+        let btnSubmit = e.target.querySelector('button[type="submit"]');
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = 'Menyimpan...';
+
+        fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
+            .then(response => {
+                alert('Berhasil! Data nasabah telah direkam ke database pusat.');
+                document.getElementById('formNasabah').reset();
+                loadDataDatabase(); 
+            })
+            .catch(error => alert('Gagal menyimpan.'))
+            .finally(() => { btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="bi bi-save me-2"></i>Simpan Data Nasabah'; });
+    }
+
+    function simpanSetoran(e) {
+        e.preventDefault();
+        let nama = document.getElementById('pilihNasabah').value;
+        let selSampah = document.getElementById('pilihSampah');
+        if (!nama || selSampah.value === "") return alert("Harap lengkapi form!");
+
+        let jenisSampah = selSampah.options[selSampah.selectedIndex].text;
+        let harga = parseInt(selSampah.value);
+        let berat = parseFloat(document.getElementById('beratSampah').value);
+        let total = harga * berat;
+        
+        let now = new Date();
+        let tgl = now.toLocaleDateString('id-ID') + ' ' + now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        let jenisBersih = jenisSampah.split(' (')[0]; 
+
+        let formData = new URLSearchParams();
+        formData.append('action', 'tambahTransaksi');
+        formData.append('id', Date.now());
+        formData.append('tgl', tgl);
+        formData.append('nama', nama);
+        formData.append('jenis', jenisBersih);
+        formData.append('berat', berat);
+        formData.append('total', total);
+
+        let btnSubmit = e.target.querySelector('button[type="submit"]');
+        btnSubmit.disabled = true; btnSubmit.innerHTML = 'Memproses...';
+
+        fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
+            .then(response => {
+                alert(`Transaksi Berhasil!\nJurnal Umum dan Buku Besar otomatis disesuaikan.`);
+                document.getElementById('formSetor').reset();
+                loadDataDatabase();
+                showTab('dashboard', document.querySelector('.nav-btn'));
+            })
+            .finally(() => { btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="bi bi-check-circle me-2"></i>Konfirmasi Setoran'; });
+    }
+
+    function tarikSaldo(e) {
+        e.preventDefault();
+        let nama = document.getElementById('pilihNasabahSaldo').value;
+        let nominal = parseInt(document.getElementById('nominalTarik').value);
+        
+        let saldoTersedia = 0;
+        dataTransaksi.filter(t => t.nama === nama).forEach(t => saldoTersedia += t.total);
+
+        if (nominal > saldoTersedia) return alert(`Gagal: Maksimal penarikan Rp ${saldoTersedia.toLocaleString('id-ID')}`);
+
+        let now = new Date();
+        let tgl = now.toLocaleDateString('id-ID') + ' ' + now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+
+        let formData = new URLSearchParams();
+        formData.append('action', 'tambahTransaksi');
+        formData.append('id', Date.now());
+        formData.append('tgl', tgl);
+        formData.append('nama', nama);
+        formData.append('jenis', 'Penarikan Tunai');
+        formData.append('berat', 0);
+        formData.append('total', -nominal); 
+
+        let btnSubmit = e.target.querySelector('button[type="submit"]');
+        btnSubmit.disabled = true;
+
+        fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
+            .then(response => {
+                alert(`Penarikan dana tunai senilai Rp ${nominal.toLocaleString('id-ID')} telah diproses.`);
+                document.getElementById('formTarikSaldo').reset();
+                loadDataDatabase();
+            })
+            .finally(() => btnSubmit.disabled = false);
+    }
+
+    // =========================================================
+    // 4. FITUR EDIT & HAPUS NASABAH (TERHUBUNG KE SHEETS)
+    // =========================================================
+    function editNasabah(id) {
+        let nasabah = dataNasabah.find(n => n.id === id);
+        if (!nasabah) return alert("Data tidak ditemukan!");
+
+        let namaBaru = prompt("Edit Nama Lengkap Nasabah:", nasabah.nama);
+        if (namaBaru === null) return;
+        namaBaru = namaBaru.trim();
+        if (namaBaru === '') return alert("Nama tidak boleh kosong!");
+
+        let hpBaru = prompt("Edit Nomor WhatsApp / HP:", nasabah.hp || '');
+        if (hpBaru === null) return;
+
+        let formData = new URLSearchParams();
+        formData.append('action', 'editNasabah');
+        formData.append('id', id);
+        formData.append('nama', namaBaru);
+        formData.append('hp', hpBaru.trim());
+
+        document.body.style.cursor = 'wait'; // Ubah kursor jadi loading
+
+        fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
+    .then(response => response.text()) // Ambil balasan teks dari backend
+    .then(text => {
+        if (text.includes("Sukses")) {
+            alert("Berhasil: Data nasabah berhasil diperbarui.");
+            loadDataDatabase();
+        } else {
+            // Jika backend membalas "Gagal..."
+            alert(text); 
+        }
+    })
+    .catch(error => alert("Gagal memperbarui data. Cek koneksi internet."))
+    .finally(() => { document.body.style.cursor = 'default'; });
+    }
+
+    function hapusNasabah(id) {
+        if(confirm('PERINGATAN!\n\nAnda yakin ingin menghapus data nasabah ini secara permanen dari server?')) {
+            let formData = new URLSearchParams();
+            formData.append('action', 'deleteNasabah');
+            formData.append('id', id);
+
+            document.body.style.cursor = 'wait';
+
+            fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
+    .then(response => response.text()) 
+    .then(text => {
+        if (text.includes("Sukses")) {
+            alert("Berhasil: Data nasabah telah dihapus.");
+            loadDataDatabase(); 
+        } else {
+            alert(text);
+        }
+    })
+    .catch(error => alert("Gagal menghapus data. Cek koneksi internet."))
+    .finally(() => { document.body.style.cursor = 'default'; });
+        }
+    }
+
+
+    // =========================================================
+    // 5. LOGIKA UI & RENDER (TIDAK ADA PERUBAHAN)
+    // =========================================================
+    function showTab(tabId, element) {
+        document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+        document.getElementById(tabId).style.display = 'block';
+        if(element) {
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active-tab'));
+            element.classList.add('active-tab');
+        }
+        if(tabId === 'ceksaldo') document.getElementById('areaDetailSaldo').style.display = 'none';
+    }
+
+    function updateTabelNasabah() {
+        let tbody = document.getElementById('tabel-daftar-nasabah');
+        tbody.innerHTML = '';
+        if(dataNasabah.length === 0) return tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted py-5">Kosong.</td></tr>`;
+        dataNasabah.forEach(n => {
+            tbody.innerHTML += `<tr>
+                <td class="align-middle fw-bold" style="color: var(--primary-dark);">${n.nama}</td>
+                <td class="align-middle text-muted">${n.hp || '-'}</td>
+                <td class="text-center align-middle">
+                    <button class="btn btn-sm btn-outline-primary py-1 px-2 me-2" onclick="editNasabah(${n.id})"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="hapusNasabah(${n.id})"><i class="bi bi-trash3"></i></button>
+                </td>
+            </tr>`;
+        });
+    }
+    function updateDropdownNasabah(dropdownId) {
+        let sel = document.getElementById(dropdownId);
+        sel.innerHTML = '<option value="" disabled selected>-- Pilih Data Nasabah --</option>';
+        dataNasabah.forEach(n => sel.innerHTML += `<option value="${n.nama}">${n.nama}</option>`);
+    }
+
+    function updateDashboard() {
+        document.getElementById('dash-transaksi').innerText = dataTransaksi.length;
+        document.getElementById('dash-nasabah').innerText = dataNasabah.length;
+        let totalRupiah = dataTransaksi.reduce((sum, t) => sum + t.total, 0);
+        document.getElementById('dash-rupiah').innerText = 'Rp ' + totalRupiah.toLocaleString('id-ID');
+        
+        let tbody = document.getElementById('tabel-riwayat');
+        tbody.innerHTML = '';
+        if(dataTransaksi.length === 0) return tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-5">Belum ada aktivitas.</td></tr>`;
+        
+        dataTransaksi.slice().reverse().slice(0, 10).forEach((t, i) => {
+            let indexAsli = dataTransaksi.length - 1 - i;
+            let absTotal = Math.abs(t.total);
+            let sign = t.total < 0 ? '-' : '';
+            let colorClass = t.total < 0 ? 'text-danger' : 'text-success';
+            let beratHtml = t.jenis !== 'Penarikan Tunai' ? `<br><small class="text-muted fw-normal">${t.berat} Kg</small>` : '';
+
+            tbody.innerHTML += `<tr>
+                <td class="text-muted small align-middle">${t.tgl}</td>
+                <td class="fw-bold align-middle" style="color: var(--text-main);">${t.nama}</td>
+                <td class="align-middle"><span class="badge-sampah">${t.jenis}</span></td>
+                <td class="fw-bold ${colorClass} align-middle">${sign} Rp ${absTotal.toLocaleString('id-ID')} ${beratHtml}</td>
+                <td class="text-center align-middle">
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2 me-1 d-inline-flex align-items-center" onclick="cetakPdfStruk(${indexAsli})">
+                        <i class="ph ph-file-pdf fs-6 me-1"></i> PDF
+                    </button>
+                    <button class="btn btn-sm btn-outline-wa py-1 px-2 d-inline-flex align-items-center" onclick="kirimWaStruk(${indexAsli})">
+                        <i class="bi bi-whatsapp fs-6"></i>
+                    </button>
+                </td>
+            </tr>`;
+        });
+    }
+
+    function cetakPdfStruk(index) {
+        let t = dataTransaksi[index]; let txt = t.total < 0 ? "PENARIKAN SALDO" : "SETORAN MATERIAL";
+        let html = `<div style="font-family:'Plus Jakarta Sans',sans-serif;width:320px;margin:0 auto;padding:25px;border:1px solid #e2e8f0;border-radius:12px;">
+            <h3 style="text-align:center;margin:0;font-weight:800;font-size:18px;">BANK SAMPAH GANG DAWET</h3>
+            <p style="text-align:center;margin:5px 0 15px 0;font-size:12px;color:#64748b;">BUKTI TRANSAKSI SAH</p><hr style="border-top:1px dashed #cbd5e1;">
+            <table style="width:100%;font-size:14px;margin:10px 0;"><tr><td style="color:#64748b;">Tgl</td><td style="text-align:right;font-weight:600;">${t.tgl}</td></tr><tr><td style="color:#64748b;">Nasabah</td><td style="text-align:right;font-weight:600;">${t.nama}</td></tr></table>
+            <hr style="border-top:1px dashed #cbd5e1;"><div style="margin:15px 0;"><div style="font-weight:700;margin-bottom:5px;">${t.jenis}</div>
+            <div style="display:flex;justify-content:space-between;font-size:14px;color:#64748b;"><span>Vol: ${t.berat} Kg</span><span>Rp ${Math.abs(t.total).toLocaleString('id-ID')}</span></div></div>
+            <hr style="border-top:1px dashed #cbd5e1;"><div style="display:flex;justify-content:space-between;font-weight:800;margin-top:15px;color:${t.total < 0 ? '#e11d48' : '#059669'};">
+            <span>${txt}</span><span>Rp ${Math.abs(t.total).toLocaleString('id-ID')}</span></div></div>`;
+        document.getElementById('area-laporan-a4').innerHTML = html; document.body.className = 'mode-cetak'; window.print(); document.body.className = '';
+    }
+
+    function kirimWaStruk(index) {
+        let t = dataTransaksi[index]; 
+    let n = dataNasabah.find(x => x.nama === t.nama); 
+    let hp = n && n.hp ? String(n.hp).trim() : ''; 
+    if(hp.startsWith('8')) hp = '62' + hp;
+    else if(hp.startsWith('0')) hp = '62' + hp.substring(1);
+        let pesan = `*STRUK BANK SAMPAH*\nTgl: ${t.tgl}\nNasabah: *${t.nama}*\n\n▪ Aktivitas: ${t.jenis}\n▪ Volume: ${t.berat} Kg\n*TOTAL: Rp ${Math.abs(t.total).toLocaleString('id-ID')}*`;
+        window.open(`https://wa.me/${hp}?text=${encodeURIComponent(pesan)}`, '_blank');
+    }
+
+    function tampilkanDetailSaldo() {
+        let nama = document.getElementById('pilihNasabahSaldo').value;
+        if (!nama) return; document.getElementById('areaDetailSaldo').style.display = 'block';
+        
+        let riwayat = dataTransaksi.filter(t => t.nama === nama);
+        let totRp = 0; let totKg = 0;
+        let tbody = document.getElementById('tabel-riwayat-saldo'); tbody.innerHTML = '';
+        
+        if (riwayat.length === 0) tbody.innerHTML = `<tr><td colspan="4" class="text-center py-5">Belum ada riwayat.</td></tr>`;
+        else {
+            riwayat.slice().reverse().forEach(t => {
+                totRp += t.total; totKg += t.berat;
+                let sign = t.total < 0 ? '-' : '+'; let cl = t.total < 0 ? 'text-danger' : 'text-success';
+                tbody.innerHTML += `<tr><td class="text-muted small">${t.tgl}</td><td><span class="badge-sampah">${t.jenis}</span></td><td class="text-center fw-medium">${t.berat>0 ? t.berat+' Kg' : '-'}</td><td class="text-end fw-bold ${cl}">${sign} Rp ${Math.abs(t.total).toLocaleString('id-ID')}</td></tr>`;
+            });
+        }
+        document.getElementById('detail-total-rp').innerText = 'Rp ' + totRp.toLocaleString('id-ID');
+        document.getElementById('detail-total-kg').innerText = totKg.toFixed(1) + ' Kg';
+    }
+
+    function cetakPdfSaldo() {
+        let nama = document.getElementById('pilihNasabahSaldo').value; if (!nama) return alert("Pilih nasabah dulu.");
+        let totRp = 0, totKg = 0; dataTransaksi.filter(t => t.nama === nama).forEach(t => { totRp += t.total; totKg += t.berat; });
+        let html = `<div style="font-family:'Plus Jakarta Sans',sans-serif;width:400px;margin:0 auto;padding:30px;border:1px solid #cbd5e1;border-radius:16px;">
+            <div style="text-align:center;border-bottom:2px solid #0f172a;padding-bottom:15px;margin-bottom:20px;">
+            <h3 style="margin:0;font-weight:800;">BANK SAMPAH GANG DAWET</h3><p style="margin:5px 0 0 0;font-size:12px;font-weight:600;">REKENING KORAN</p></div>
+            <table style="width:100%;font-size:13px;margin-bottom:20px;"><tr><td style="color:#64748b;">Entitas</td><td style="font-weight:700;">: ${nama}</td></tr></table>
+            <div style="background:#f8fafc;padding:20px;border-radius:12px;border:1px solid #e2e8f0;margin-bottom:20px;">
+            <p style="margin:0 0 5px 0;font-size:12px;color:#64748b;">Akumulasi Volume</p><h4 style="margin:0 0 20px 0;color:#334155;">${totKg.toFixed(1)} Kg</h4>
+            <p style="margin:0 0 5px 0;font-size:12px;color:#64748b;">Kewajiban Saldo (IDR)</p><h3 style="margin:0;color:#059669;font-weight:800;font-size:24px;">Rp ${totRp.toLocaleString('id-ID')}</h3></div></div>`;
+        document.getElementById('area-laporan-a4').innerHTML = html; document.body.className = 'mode-cetak'; window.print(); document.body.className = '';
+    }
+
+    function kirimWaSaldo() {
+        let nama = document.getElementById('pilihNasabahSaldo').value; if (!nama) return;
+        let totRp = 0, totKg = 0; dataTransaksi.filter(t => t.nama === nama).forEach(t => { totRp += t.total; totKg += t.berat; });
+        let n = dataNasabah.find(x => x.nama === nama); 
+    let hp = n && n.hp ? String(n.hp).trim() : ''; 
+    if(hp.startsWith('8')) hp = '62' + hp;
+    else if(hp.startsWith('0')) hp = '62' + hp.substring(1);
+        let pesan = `Yth. *${nama}*,\nBerikut posisi saldo Anda:\n📊 Volume: *${totKg.toFixed(1)} Kg*\n💳 Saldo: *Rp ${totRp.toLocaleString('id-ID')}*`;
+        window.open(`https://wa.me/${hp}?text=${encodeURIComponent(pesan)}`, '_blank');
+    }
+
+    function updateBukuBesar() {
+        let tbody = document.getElementById('tabel-jurnal-umum'); tbody.innerHTML = '';
+        if(dataTransaksi.length === 0) return tbody.innerHTML = `<tr><td colspan="5" class="text-center py-5">Kosong.</td></tr>`;
+        dataTransaksi.forEach((t, i) => {
+            let idTrx = "REF-" + (i + 1).toString().padStart(5, '0'); let rp = 'Rp ' + Math.abs(t.total).toLocaleString('id-ID');
+            if (t.jenis === 'Penarikan Tunai') {
+                tbody.innerHTML += `<tr><td class="text-muted small">${t.tgl}<br><strong class="text-dark">${idTrx}</strong></td><td>Pelunasan: ${t.nama}</td><td><span class="badge bg-light text-dark border">211</span> Hutang Saldo</td><td class="text-end fw-bold text-success">${rp}</td><td class="text-end text-muted">-</td></tr>
+                <tr style="border-bottom:2px solid var(--border-color);"><td></td><td class="text-muted small px-4"><i>Penarikan Tunai</i></td><td class="px-4"><span class="badge bg-light text-dark border">111</span> Kas Bank</td><td class="text-end text-muted">-</td><td class="text-end fw-bold text-danger">${rp}</td></tr>`;
+            } else {
+                tbody.innerHTML += `<tr><td class="text-muted small">${t.tgl}<br><strong class="text-dark">${idTrx}</strong></td><td>Kredit: ${t.nama}</td><td><span class="badge bg-light text-dark border">511</span> Beban Pembelian</td><td class="text-end fw-bold text-success">${rp}</td><td class="text-end text-muted">-</td></tr>
+                <tr style="border-bottom:2px solid var(--border-color);"><td></td><td class="text-muted small px-4"><i>Liabilitas Warga</i></td><td class="px-4"><span class="badge bg-light text-dark border">211</span> Hutang Saldo</td><td class="text-end text-muted">-</td><td class="text-end fw-bold text-danger">${rp}</td></tr>`;
+            }
+        });
+    }
+
+    function cetakBukuBesar() { document.body.className = 'mode-bukubesar'; window.print(); document.body.className = ''; }
+
+    function updateLaporan() {
+        let totB = 0, totR = 0, rekapJ = {}, rekapN = {}; 
+        dataTransaksi.forEach(t => {
+            totB += t.berat; totR += t.total;
+            if(t.jenis !== 'Penarikan Tunai') { if(!rekapJ[t.jenis]) rekapJ[t.jenis] = {b:0, n:0}; rekapJ[t.jenis].b += t.berat; rekapJ[t.jenis].n += t.total; }
+            if(!rekapN[t.nama]) rekapN[t.nama] = {b:0, n:0}; rekapN[t.nama].b += t.berat; rekapN[t.nama].n += t.total;
+        });
+        document.getElementById('lap-sampah').innerText = totB.toFixed(1);
+        document.getElementById('lap-rupiah').innerText = 'Rp ' + totR.toLocaleString('id-ID');
+        
+        let tbJ = document.getElementById('tabel-rekap-sampah'); tbJ.innerHTML = '';
+        for(let j in rekapJ) tbJ.innerHTML += `<tr><td class="fw-bold">${j}</td><td class="text-muted">${rekapJ[j].b.toFixed(1)} Kg</td><td class="text-end text-success fw-bold">Rp ${rekapJ[j].n.toLocaleString('id-ID')}</td></tr>`;
+        
+        let tbN = document.getElementById('tabel-rekap-nasabah'); tbN.innerHTML = '';
+        dataNasabah.forEach(n => {
+            let b = rekapN[n.nama] ? rekapN[n.nama].b : 0; let v = rekapN[n.nama] ? rekapN[n.nama].n : 0;
+            tbN.innerHTML += `<tr><td class="fw-bold">${n.nama}</td><td class="text-muted">${b.toFixed(1)} Kg</td><td class="text-end text-primary fw-bold">Rp ${v.toLocaleString('id-ID')}</td></tr>`;
+        });
+    }
+
+    function eksporExcel() {
+        let csv = "data:text/csv;charset=utf-8,Tanggal;Nasabah;Aktivitas;Volume(Kg);Nilai(Rp)\n";
+        dataTransaksi.forEach(r => csv += `${r.tgl};${r.nama};${r.jenis};${r.berat};${r.total}\n`);
+        let link = document.createElement("a"); link.setAttribute("href", encodeURI(csv));
+        link.setAttribute("download", "Laporan.csv"); document.body.appendChild(link); link.click(); link.remove();
+    }
+
+    function cetakLaporanA4() {
+        let html = `<div style="font-family:'Plus Jakarta Sans',sans-serif;"><h2 style="text-align:center;">Laporan Finansial & Persediaan</h2><h3 style="text-align:center;">BANK SAMPAH GANG DAWET</h3><p style="text-align:center;">Cetak: ${new Date().toLocaleDateString('id-ID')}</p></div>`;
+        document.getElementById('area-laporan-a4').innerHTML = html; document.body.className = 'mode-cetak'; window.print(); document.body.className = '';
+    }
+// =========================================================
+    // FITUR BROADCAST JADWAL SETORAN
+    // =========================================================
+    let pesanBroadcastGlobal = "";
+
+    function buatBroadcast() {
+        let tglInput = document.getElementById('tglJadwal').value;
+        let pesanTamb = document.getElementById('pesanTambahan').value;
+        
+        if(!tglInput) return alert("Harap isi Tanggal Pelaksanaan terlebih dahulu!");
+
+        // Ubah format tanggal menjadi lebih mudah dibaca (opsional)
+        let tglObj = new Date(tglInput);
+        let opsiTgl = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        let tglFormat = tglObj.toLocaleDateString('id-ID', opsiTgl);
+
+        // Susun teks pesan otomatis
+        pesanBroadcastGlobal = `*PENGUMUMAN BANK SAMPAH*\n\n` +
+                               `Halo Bapak/Ibu Warga,\n` +
+                               `Kami menginformasikan bahwa jadwal penyetoran Bank Sampah akan dilaksanakan pada:\n\n` +
+                               `📅 *Tanggal:* ${tglFormat}\n\n`;
+        
+        if (pesanTamb.trim() !== "") {
+            pesanBroadcastGlobal += `📝 *Catatan:* ${pesanTamb}\n\n`;
+        }
+        
+        pesanBroadcastGlobal += `Mari kita jaga kebersihan lingkungan dan tingkatkan tabungan sampah kita. Terima kasih! ♻️`;
+
+        // Tampilkan ke layar
+        document.getElementById('previewPesan').innerText = pesanBroadcastGlobal;
+        document.getElementById('areaBroadcast').style.display = 'block';
+        document.getElementById('totalKirim').innerText = dataNasabah.length;
+
+        // Buat daftar tombol kirim
+        let tbody = document.getElementById('tabel-kirim-broadcast');
+        tbody.innerHTML = '';
+        
+        if(dataNasabah.length === 0) {
+            tbody.innerHTML = `<tr><td class="text-center text-muted">Belum ada data nasabah terdaftar.</td></tr>`;
+            return;
+        }
+
+        dataNasabah.forEach((n, i) => {
+            let hp = n.hp ? String(n.hp).trim() : '';
+            let valid = true;
+            if(hp === '') valid = false;
+            
+            // Format nomor HP
+            if (hp.startsWith('8')) hp = '62' + hp;
+            else if (hp.startsWith('0')) hp = '62' + hp.substring(1);
+
+            let btnHtml = valid 
+                ? `<button class="btn btn-sm btn-success" onclick="eksekusiWa('${hp}', ${i})"><i class="bi bi-whatsapp me-1"></i> Kirim</button>` 
+                : `<span class="badge bg-danger">No. HP Kosong</span>`;
+
+            tbody.innerHTML += `
+                <tr>
+                    <td class="align-middle fw-bold">${n.nama}</td>
+                    <td class="align-middle text-muted">${n.hp || '-'}</td>
+                    <td class="text-end align-middle" id="status-kirim-${i}">
+                        ${btnHtml}
+                    </td>
+                </tr>`;
+        });
+    }
+
+    function eksekusiWa(hp, idBaris) {
+        // Ganti tombol menjadi label "Terkirim" agar tidak bingung mana yang sudah diklik
+        document.getElementById(`status-kirim-${idBaris}`).innerHTML = `<span class="badge bg-secondary"><i class="bi bi-check2-all me-1"></i> Terbuka</span>`;
+        
+        // Buka WhatsApp
+        window.open(`https://wa.me/${hp}?text=${encodeURIComponent(pesanBroadcastGlobal)}`, '_blank');
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
