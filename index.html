@@ -188,7 +188,7 @@
                         </div>
                         <div class="mb-4">
                             <label>Nomor WhatsApp Aktif</label>
-                            <input type="number" id="hpNasabah" class="form-control" placeholder="Contoh: 08123456789" required>
+                            <input type="text" id="hpNasabah" class="form-control" placeholder="Contoh: 08123456789" required>
                         </div>
                         <button type="submit" class="btn btn-success w-100 py-3"><i class="bi bi-save me-2"></i>Simpan Data Nasabah</button>
                     </form>
@@ -772,12 +772,18 @@
         let tbody = document.getElementById('tabel-daftar-nasabah');
         tbody.innerHTML = '';
         if(dataNasabah.length === 0) return tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted py-5">Kosong.</td></tr>`;
+        
         dataNasabah.forEach(n => {
+            // PERBAIKAN PINTAR: Cek apakah nomor HP diawali angka 8. Jika ya, tambahkan 0 di depannya.
+            let noHp = n.hp ? String(n.hp).trim() : '-';
+            if (noHp.startsWith('8')) {
+                noHp = '0' + noHp;
+            }
+
             tbody.innerHTML += `<tr>
                 <td class="align-middle fw-bold" style="color: var(--primary-dark);">${n.nama}</td>
-                <td class="align-middle text-muted">${n.hp || '-'}</td>
+                <td class="align-middle text-muted">${noHp}</td>
                 <td class="text-center align-middle">
-                    <!-- PERBAIKAN: Menambahkan tanda kutip tunggal (' ') pada pemanggilan ID -->
                     <button class="btn btn-sm btn-outline-primary py-1 px-2 me-2" onclick="editNasabah('${n.id}')"><i class="bi bi-pencil-square"></i></button>
                     <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="hapusNasabah('${n.id}')"><i class="bi bi-trash3"></i></button>
                 </td>
