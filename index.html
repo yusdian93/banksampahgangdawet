@@ -107,7 +107,8 @@
                 <ul class="navbar-nav ms-auto mt-3 mt-lg-0 align-items-center">
                     <li class="nav-link nav-btn active-tab" onclick="showTab('dashboard', this)"><i class="bi bi-grid-1x2 me-2"></i>Dashboard</li>
                     <li class="nav-link nav-btn" onclick="showTab('nasabah', this)"><i class="bi bi-people me-2"></i>Nasabah</li>
-                    <li class="nav-link nav-btn" onclick="showTab('setor', this)"><i class="bi bi-box-arrow-in-down me-2"></i>Setor</li>
+		    <li class="nav-link nav-btn" onclick="showTab('kategori', this)"><i class="bi bi-tags me-2"></i>Kategori Sampah</li>                    
+		    <li class="nav-link nav-btn" onclick="showTab('setor', this)"><i class="bi bi-box-arrow-in-down me-2"></i>Setor</li>
                     <li class="nav-link nav-btn" onclick="showTab('ceksaldo', this)"><i class="bi bi-wallet2 me-2"></i>Cek Saldo</li>
                     <li class="nav-link nav-btn" onclick="showTab('bukubesar', this)"><i class="bi bi-journal-bookmark-fill me-2"></i>Buku Besar</li>
                     <li class="nav-link nav-btn" onclick="showTab('jadwal', this)"><i class="bi bi-calendar-event me-2"></i>Jadwal</li>
@@ -207,6 +208,54 @@
         </div>
     </div>
 
+<h5 class="fw-bold mb-4" style="color: var(--primary-dark);"><i class="bi bi-people me-2 text-success"></i>Daftar Anggota Terdaftar</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="kategori" class="tab-content" style="display:none;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card p-4 p-md-5">
+                    <h5 class="fw-bold mb-4" style="color: var(--primary-dark);"><i class="bi bi-tag me-2 text-success"></i>Tambah Kategori Material Baru</h5>
+                    <form id="formKategori" onsubmit="simpanKategori(event)">
+                        <div class="mb-4">
+                            <label>Nama Material (Contoh: Plastik PET Bersih)</label>
+                            <input type="text" id="namaKategori" class="form-control" required>
+                        </div>
+                        <div class="mb-4">
+                            <label>Harga per Kg (Rp)</label>
+                            <input type="number" id="hargaKategori" class="form-control" placeholder="Contoh: 3000" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 py-3"><i class="bi bi-save me-2"></i>Simpan Kategori</button>
+                    </form>
+                    
+                    <hr class="my-5" style="border-color: var(--border-color); opacity: 1;">
+                    
+                    <h5 class="fw-bold mb-4" style="color: var(--primary-dark);"><i class="bi bi-list-ul me-2 text-success"></i>Daftar Kategori Persediaan</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nama Material</th>
+                                    <th>Harga / Kg</th>
+                                    <th class="text-center">Manajemen</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-daftar-kategori"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="setor" class="tab-content" style="display:none;">
+        <div class="row justify-content-center">
     <div id="setor" class="tab-content" style="display:none;">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -218,16 +267,11 @@
                             <select id="pilihNasabah" class="form-select" required></select>
                         </div>
                         <div class="mb-4">
-                            <label>Kategori Persediaan Sampah</label>
-                            <select id="pilihSampah" class="form-select" required>
-                                <option value="" disabled selected>-- Pilih Jenis Material --</option>
-                                <option value="3000">Plastik PET Bersih (Rp 3.000 / Kg)</option>
-                                <option value="2000">Kardus / Kertas Duplek (Rp 2.000 / Kg)</option>
-                                <option value="6000">Besi / Logam Bekas (Rp 6.000 / Kg)</option>
-                                <option value="500">Botol Kaca Utuh (Rp 500 / Kg)</option>
-                                <option value="1000">Organik / Kompos (Rp 1.000 / Kg)</option>
-                            </select>
-                        </div>
+    			<label>Kategori Persediaan Sampah</label>
+    			<select id="pilihSampah" class="form-select" required>
+        		<option value="" disabled selected>-- Pilih Jenis Material --</option>
+        		</select>
+			</div>
                         <div class="mb-5">
                             <label>Volume Timbangan Bersih</label>
                             <div class="input-group">
@@ -452,7 +496,7 @@
     
     let dataNasabah = [];
     let dataTransaksi = [];
-
+    let dataTransaksi = [];
     // =========================================================
     // 2. FUNGSI DATABASE SINKRONISASI
     // =========================================================
@@ -465,9 +509,12 @@
             .then(data => {
                 dataNasabah = data.nasabah || [];
                 dataTransaksi = data.transaksi || [];
+		dataKategori = data.kategori || []; // TAMBAHAN BARU
                 
                 updateTabelNasabah();
-                updateDropdownNasabah('pilihNasabah');
+ 		updateTabelKategori(); // TAMBAHAN BARU
+		updateDropdownKategori(); // TAMBAHAN BARU               
+		updateDropdownNasabah('pilihNasabah');
                 if(document.getElementById('pilihNasabahSaldo')) updateDropdownNasabah('pilihNasabahSaldo');
                 updateDashboard();
                 updateBukuBesar();
@@ -511,6 +558,82 @@
             .catch(error => alert('Gagal menyimpan.'))
             .finally(() => { btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="bi bi-save me-2"></i>Simpan Data Nasabah'; });
     }
+fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
+            .then(response => {
+                alert('Berhasil! Data nasabah telah direkam ke database pusat.');
+                document.getElementById('formNasabah').reset();
+                loadDataDatabase(); 
+            })
+            .catch(error => alert('Gagal menyimpan.'))
+            .finally(() => { btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="bi bi-save me-2"></i>Simpan Data Nasabah'; });
+    }
+
+    // ===== PASTE KODE FUNGSI KATEGORI DI SINI =====
+    function simpanKategori(e) {
+        e.preventDefault();
+        let nama = document.getElementById('namaKategori').value.trim();
+        let harga = document.getElementById('hargaKategori').value.trim();
+        
+        let formData = new URLSearchParams();
+        formData.append('action', 'tambahKategori');
+        formData.append('id', Date.now());
+        formData.append('nama_kategori', nama);
+        formData.append('harga', harga);
+
+        let btnSubmit = e.target.querySelector('button[type="submit"]');
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = 'Menyimpan...';
+
+        fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
+            .then(response => {
+                alert('Kategori berhasil ditambahkan.');
+                document.getElementById('formKategori').reset();
+                loadDataDatabase(); 
+            })
+            .catch(error => alert('Gagal menyimpan kategori.'))
+            .finally(() => { btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="bi bi-save me-2"></i>Simpan Kategori'; });
+    }
+
+    function hapusKategori(id) {
+        if(confirm('Yakin ingin menghapus kategori ini?')) {
+            let formData = new URLSearchParams();
+            formData.append('action', 'deleteKategori');
+            formData.append('id', id);
+
+            document.body.style.cursor = 'wait';
+            fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
+                .then(response => {
+                    alert("Kategori berhasil dihapus.");
+                    loadDataDatabase();
+                })
+                .finally(() => { document.body.style.cursor = 'default'; });
+        }
+    }
+
+    function updateTabelKategori() {
+        let tbody = document.getElementById('tabel-daftar-kategori');
+        tbody.innerHTML = '';
+        if(dataKategori.length === 0) return tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted py-5">Belum ada kategori.</td></tr>`;
+        
+        dataKategori.forEach(k => {
+            tbody.innerHTML += `<tr>
+                <td class="align-middle fw-bold" style="color: var(--primary-dark);">${k.nama_kategori}</td>
+                <td class="align-middle text-success fw-bold">Rp ${parseInt(k.harga).toLocaleString('id-ID')}</td>
+                <td class="text-center align-middle">
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="hapusKategori(${k.id})"><i class="bi bi-trash3"></i></button>
+                </td>
+            </tr>`;
+        });
+    }
+
+    function updateDropdownKategori() {
+        let sel = document.getElementById('pilihSampah');
+        sel.innerHTML = '<option value="" disabled selected>-- Pilih Jenis Material --</option>';
+        dataKategori.forEach(k => {
+            sel.innerHTML += `<option value="${k.harga}">${k.nama_kategori} (Rp ${parseInt(k.harga).toLocaleString('id-ID')} / Kg)</option>`;
+        });
+    }
+    // ===== AKHIR DARI KODE FUNGSI KATEGORI =====
 
     function simpanSetoran(e) {
         e.preventDefault();
