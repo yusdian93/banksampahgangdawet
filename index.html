@@ -777,6 +777,7 @@
                 <td class="align-middle fw-bold" style="color: var(--primary-dark);">${n.nama}</td>
                 <td class="align-middle text-muted">${n.hp || '-'}</td>
                 <td class="text-center align-middle">
+                    <!-- PERBAIKAN: Menambahkan tanda kutip tunggal (' ') pada pemanggilan ID -->
                     <button class="btn btn-sm btn-outline-primary py-1 px-2 me-2" onclick="editNasabah('${n.id}')"><i class="bi bi-pencil-square"></i></button>
                     <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="hapusNasabah('${n.id}')"><i class="bi bi-trash3"></i></button>
                 </td>
