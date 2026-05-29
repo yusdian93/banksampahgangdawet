@@ -11,15 +11,14 @@
 
     <style>
         :root {
-            --primary-dark: #3f5443; /* Hijau sage tua elegan untuk judul/teks utama */
-            --primary-main: #6b8e72; /* Hijau sage lembut untuk tombol-tombol utama */
-            --primary-light: #a4c3a9; /* Hijau pastel untuk sorotan/highlight */
-            --bg-color: #f5f2eb; /* Latar belakang warna krem hangat */
-            --text-main: #2d332e; /* Teks warna abu-abu kehitaman (lebih soft dari hitam pekat) */
-            --text-muted: #79827b; /* Teks sekunder yang redup dan nyaman dibaca */
-            --card-bg: #ffffff; /* Kotak/kartu tetap putih murni agar kontras dengan latar krem */
-            --border-color: #e6e2d6; /* Garis pembatas warna krem sedikit lebih gelap */
-            /* WARNA LOGO WHATSAPP ASLI */
+            --primary-dark: #3f5443;
+            --primary-main: #6b8e72;
+            --primary-light: #a4c3a9;
+            --bg-color: #f5f2eb;
+            --text-main: #2d332e;
+            --text-muted: #79827b;
+            --card-bg: #ffffff;
+            --border-color: #e6e2d6;
             --whatsapp-green: #25D366; 
             --whatsapp-dark: #128C7E;
         }
@@ -60,7 +59,6 @@
         .btn-outline-danger:hover { background: #ef4444; color: white; border-color: #ef4444; }
         .btn-outline-primary { border: 1px solid #e0e7ff; color: #4f46e5; background: #eef2ff; }
         .btn-outline-primary:hover { background: #4f46e5; color: white; border-color: #4f46e5; }
-/* Tombol Kustom Warna WhatsApp Outline */
         .btn-outline-wa {
             color: var(--whatsapp-green) !important;
             border-color: var(--whatsapp-green) !important;
@@ -107,8 +105,8 @@
                 <ul class="navbar-nav ms-auto mt-3 mt-lg-0 align-items-center">
                     <li class="nav-link nav-btn active-tab" onclick="showTab('dashboard', this)"><i class="bi bi-grid-1x2 me-2"></i>Dashboard</li>
                     <li class="nav-link nav-btn" onclick="showTab('nasabah', this)"><i class="bi bi-people me-2"></i>Nasabah</li>
-		    <li class="nav-link nav-btn" onclick="showTab('kategori', this)"><i class="bi bi-tags me-2"></i>Kategori Sampah</li>                    
-		    <li class="nav-link nav-btn" onclick="showTab('setor', this)"><i class="bi bi-box-arrow-in-down me-2"></i>Setor</li>
+                    <li class="nav-link nav-btn" onclick="showTab('kategori', this)"><i class="bi bi-tags me-2"></i>Kategori Sampah</li>                    
+                    <li class="nav-link nav-btn" onclick="showTab('setor', this)"><i class="bi bi-box-arrow-in-down me-2"></i>Setor</li>
                     <li class="nav-link nav-btn" onclick="showTab('ceksaldo', this)"><i class="bi bi-wallet2 me-2"></i>Cek Saldo</li>
                     <li class="nav-link nav-btn" onclick="showTab('bukubesar', this)"><i class="bi bi-journal-bookmark-fill me-2"></i>Buku Besar</li>
                     <li class="nav-link nav-btn" onclick="showTab('jadwal', this)"><i class="bi bi-calendar-event me-2"></i>Jadwal</li>
@@ -208,16 +206,6 @@
         </div>
     </div>
 
-<h5 class="fw-bold mb-4" style="color: var(--primary-dark);"><i class="bi bi-people me-2 text-success"></i>Daftar Anggota Terdaftar</h5>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div id="kategori" class="tab-content" style="display:none;">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -254,8 +242,7 @@
             </div>
         </div>
     </div>
-    <div id="setor" class="tab-content" style="display:none;">
-        <div class="row justify-content-center">
+
     <div id="setor" class="tab-content" style="display:none;">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -267,11 +254,11 @@
                             <select id="pilihNasabah" class="form-select" required></select>
                         </div>
                         <div class="mb-4">
-    			<label>Kategori Persediaan Sampah</label>
-    			<select id="pilihSampah" class="form-select" required>
-        		<option value="" disabled selected>-- Pilih Jenis Material --</option>
-        		</select>
-			</div>
+                            <label>Kategori Persediaan Sampah</label>
+                            <select id="pilihSampah" class="form-select" required>
+                                <option value="" disabled selected>-- Pilih Jenis Material --</option>
+                            </select>
+                        </div>
                         <div class="mb-5">
                             <label>Volume Timbangan Bersih</label>
                             <div class="input-group">
@@ -388,7 +375,8 @@
             </div>
         </div>
     </div>
-<div id="jadwal" class="tab-content" style="display:none;">
+    
+    <div id="jadwal" class="tab-content" style="display:none;">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="card p-4 p-md-5">
@@ -423,6 +411,7 @@
             </div>
         </div>
     </div>
+    
     <div id="laporan" class="tab-content" style="display:none;">
         <div class="card p-4 p-md-5">
             <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
@@ -494,9 +483,11 @@
     // =========================================================
     const scriptURL = 'https://script.google.com/macros/s/AKfycbyCW5fCug2IiaDsqxtqwExUyVzJe_UihHyISfmUGpAgVTQOGbRnqfkUNXi3e7r_Lm8t/exec';
     
+    // VARIABEL DATA
     let dataNasabah = [];
     let dataTransaksi = [];
-    let dataTransaksi = [];
+    let dataKategori = []; 
+
     // =========================================================
     // 2. FUNGSI DATABASE SINKRONISASI
     // =========================================================
@@ -509,12 +500,12 @@
             .then(data => {
                 dataNasabah = data.nasabah || [];
                 dataTransaksi = data.transaksi || [];
-		dataKategori = data.kategori || []; // TAMBAHAN BARU
+                dataKategori = data.kategori || []; 
                 
                 updateTabelNasabah();
- 		updateTabelKategori(); // TAMBAHAN BARU
-		updateDropdownKategori(); // TAMBAHAN BARU               
-		updateDropdownNasabah('pilihNasabah');
+                updateTabelKategori(); 
+                updateDropdownKategori();             
+                updateDropdownNasabah('pilihNasabah');
                 if(document.getElementById('pilihNasabahSaldo')) updateDropdownNasabah('pilihNasabahSaldo');
                 updateDashboard();
                 updateBukuBesar();
@@ -527,11 +518,10 @@
             });
     }
 
-    // Panggil saat aplikasi pertama dibuka
     loadDataDatabase();
 
     // =========================================================
-    // 3. FUNGSI INPUT DATA (KIRIM KE CLOUD)
+    // 3. FUNGSI INPUT DATA NASABAH & KATEGORI
     // =========================================================
     function simpanNasabah(e) {
         e.preventDefault();
@@ -558,17 +548,7 @@
             .catch(error => alert('Gagal menyimpan.'))
             .finally(() => { btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="bi bi-save me-2"></i>Simpan Data Nasabah'; });
     }
-fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
-            .then(response => {
-                alert('Berhasil! Data nasabah telah direkam ke database pusat.');
-                document.getElementById('formNasabah').reset();
-                loadDataDatabase(); 
-            })
-            .catch(error => alert('Gagal menyimpan.'))
-            .finally(() => { btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="bi bi-save me-2"></i>Simpan Data Nasabah'; });
-    }
 
-    // ===== PASTE KODE FUNGSI KATEGORI DI SINI =====
     function simpanKategori(e) {
         e.preventDefault();
         let nama = document.getElementById('namaKategori').value.trim();
@@ -620,7 +600,7 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
                 <td class="align-middle fw-bold" style="color: var(--primary-dark);">${k.nama_kategori}</td>
                 <td class="align-middle text-success fw-bold">Rp ${parseInt(k.harga).toLocaleString('id-ID')}</td>
                 <td class="text-center align-middle">
-                    <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="hapusKategori(${k.id})"><i class="bi bi-trash3"></i></button>
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="hapusKategori('${k.id}')"><i class="bi bi-trash3"></i></button>
                 </td>
             </tr>`;
         });
@@ -633,7 +613,6 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
             sel.innerHTML += `<option value="${k.harga}">${k.nama_kategori} (Rp ${parseInt(k.harga).toLocaleString('id-ID')} / Kg)</option>`;
         });
     }
-    // ===== AKHIR DARI KODE FUNGSI KATEGORI =====
 
     function simpanSetoran(e) {
         e.preventDefault();
@@ -707,7 +686,7 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
     }
 
     // =========================================================
-    // 4. FITUR EDIT & HAPUS NASABAH (TERHUBUNG KE SHEETS)
+    // 4. FITUR EDIT & HAPUS NASABAH
     // =========================================================
     function editNasabah(id) {
         let nasabah = dataNasabah.find(n => n.id === id);
@@ -727,21 +706,20 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
         formData.append('nama', namaBaru);
         formData.append('hp', hpBaru.trim());
 
-        document.body.style.cursor = 'wait'; // Ubah kursor jadi loading
+        document.body.style.cursor = 'wait'; 
 
         fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
-    .then(response => response.text()) // Ambil balasan teks dari backend
-    .then(text => {
-        if (text.includes("Sukses")) {
-            alert("Berhasil: Data nasabah berhasil diperbarui.");
-            loadDataDatabase();
-        } else {
-            // Jika backend membalas "Gagal..."
-            alert(text); 
-        }
-    })
-    .catch(error => alert("Gagal memperbarui data. Cek koneksi internet."))
-    .finally(() => { document.body.style.cursor = 'default'; });
+        .then(response => response.text()) 
+        .then(text => {
+            if (text.includes("Sukses")) {
+                alert("Berhasil: Data nasabah berhasil diperbarui.");
+                loadDataDatabase();
+            } else {
+                alert(text); 
+            }
+        })
+        .catch(error => alert("Gagal memperbarui data. Cek koneksi internet."))
+        .finally(() => { document.body.style.cursor = 'default'; });
     }
 
     function hapusNasabah(id) {
@@ -753,23 +731,23 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
             document.body.style.cursor = 'wait';
 
             fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
-    .then(response => response.text()) 
-    .then(text => {
-        if (text.includes("Sukses")) {
-            alert("Berhasil: Data nasabah telah dihapus.");
-            loadDataDatabase(); 
-        } else {
-            alert(text);
-        }
-    })
-    .catch(error => alert("Gagal menghapus data. Cek koneksi internet."))
-    .finally(() => { document.body.style.cursor = 'default'; });
+            .then(response => response.text()) 
+            .then(text => {
+                if (text.includes("Sukses")) {
+                    alert("Berhasil: Data nasabah telah dihapus.");
+                    loadDataDatabase(); 
+                } else {
+                    alert(text);
+                }
+            })
+            .catch(error => alert("Gagal menghapus data. Cek koneksi internet."))
+            .finally(() => { document.body.style.cursor = 'default'; });
         }
     }
 
 
     // =========================================================
-    // 5. LOGIKA UI & RENDER (TIDAK ADA PERUBAHAN)
+    // 5. LOGIKA UI & RENDER 
     // =========================================================
     function showTab(tabId, element) {
         document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
@@ -790,8 +768,8 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
                 <td class="align-middle fw-bold" style="color: var(--primary-dark);">${n.nama}</td>
                 <td class="align-middle text-muted">${n.hp || '-'}</td>
                 <td class="text-center align-middle">
-                    <button class="btn btn-sm btn-outline-primary py-1 px-2 me-2" onclick="editNasabah(${n.id})"><i class="bi bi-pencil-square"></i></button>
-                    <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="hapusNasabah(${n.id})"><i class="bi bi-trash3"></i></button>
+                    <button class="btn btn-sm btn-outline-primary py-1 px-2 me-2" onclick="editNasabah('${n.id}')"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="hapusNasabah('${n.id}')"><i class="bi bi-trash3"></i></button>
                 </td>
             </tr>`;
         });
@@ -826,7 +804,7 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
                 <td class="fw-bold ${colorClass} align-middle">${sign} Rp ${absTotal.toLocaleString('id-ID')} ${beratHtml}</td>
                 <td class="text-center align-middle">
                     <button class="btn btn-sm btn-outline-danger py-1 px-2 me-1 d-inline-flex align-items-center" onclick="cetakPdfStruk(${indexAsli})">
-                        <i class="ph ph-file-pdf fs-6 me-1"></i> PDF
+                        <i class="bi bi-file-pdf fs-6 me-1"></i> PDF
                     </button>
                     <button class="btn btn-sm btn-outline-wa py-1 px-2 d-inline-flex align-items-center" onclick="kirimWaStruk(${indexAsli})">
                         <i class="bi bi-whatsapp fs-6"></i>
@@ -851,10 +829,10 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
 
     function kirimWaStruk(index) {
         let t = dataTransaksi[index]; 
-    let n = dataNasabah.find(x => x.nama === t.nama); 
-    let hp = n && n.hp ? String(n.hp).trim() : ''; 
-    if(hp.startsWith('8')) hp = '62' + hp;
-    else if(hp.startsWith('0')) hp = '62' + hp.substring(1);
+        let n = dataNasabah.find(x => x.nama === t.nama); 
+        let hp = n && n.hp ? String(n.hp).trim() : ''; 
+        if(hp.startsWith('8')) hp = '62' + hp;
+        else if(hp.startsWith('0')) hp = '62' + hp.substring(1);
         let pesan = `*STRUK BANK SAMPAH*\nTgl: ${t.tgl}\nNasabah: *${t.nama}*\n\n▪ Aktivitas: ${t.jenis}\n▪ Volume: ${t.berat} Kg\n*TOTAL: Rp ${Math.abs(t.total).toLocaleString('id-ID')}*`;
         window.open(`https://wa.me/${hp}?text=${encodeURIComponent(pesan)}`, '_blank');
     }
@@ -896,9 +874,9 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
         let nama = document.getElementById('pilihNasabahSaldo').value; if (!nama) return;
         let totRp = 0, totKg = 0; dataTransaksi.filter(t => t.nama === nama).forEach(t => { totRp += t.total; totKg += t.berat; });
         let n = dataNasabah.find(x => x.nama === nama); 
-    let hp = n && n.hp ? String(n.hp).trim() : ''; 
-    if(hp.startsWith('8')) hp = '62' + hp;
-    else if(hp.startsWith('0')) hp = '62' + hp.substring(1);
+        let hp = n && n.hp ? String(n.hp).trim() : ''; 
+        if(hp.startsWith('8')) hp = '62' + hp;
+        else if(hp.startsWith('0')) hp = '62' + hp.substring(1);
         let pesan = `Yth. *${nama}*,\nBerikut posisi saldo Anda:\n📊 Volume: *${totKg.toFixed(1)} Kg*\n💳 Saldo: *Rp ${totRp.toLocaleString('id-ID')}*`;
         window.open(`https://wa.me/${hp}?text=${encodeURIComponent(pesan)}`, '_blank');
     }
@@ -951,8 +929,9 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
         let html = `<div style="font-family:'Plus Jakarta Sans',sans-serif;"><h2 style="text-align:center;">Laporan Finansial & Persediaan</h2><h3 style="text-align:center;">BANK SAMPAH GANG DAWET</h3><p style="text-align:center;">Cetak: ${new Date().toLocaleDateString('id-ID')}</p></div>`;
         document.getElementById('area-laporan-a4').innerHTML = html; document.body.className = 'mode-cetak'; window.print(); document.body.className = '';
     }
-// =========================================================
-    // FITUR BROADCAST JADWAL SETORAN
+
+    // =========================================================
+    // 6. FITUR BROADCAST JADWAL SETORAN
     // =========================================================
     let pesanBroadcastGlobal = "";
 
@@ -962,12 +941,10 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
         
         if(!tglInput) return alert("Harap isi Tanggal Pelaksanaan terlebih dahulu!");
 
-        // Ubah format tanggal menjadi lebih mudah dibaca (opsional)
         let tglObj = new Date(tglInput);
         let opsiTgl = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let tglFormat = tglObj.toLocaleDateString('id-ID', opsiTgl);
 
-        // Susun teks pesan otomatis
         pesanBroadcastGlobal = `*PENGUMUMAN BANK SAMPAH*\n\n` +
                                `Halo Bapak/Ibu Warga,\n` +
                                `Kami menginformasikan bahwa jadwal penyetoran Bank Sampah akan dilaksanakan pada:\n\n` +
@@ -979,12 +956,10 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
         
         pesanBroadcastGlobal += `Mari kita jaga kebersihan lingkungan dan tingkatkan tabungan sampah kita. Terima kasih! ♻️`;
 
-        // Tampilkan ke layar
         document.getElementById('previewPesan').innerText = pesanBroadcastGlobal;
         document.getElementById('areaBroadcast').style.display = 'block';
         document.getElementById('totalKirim').innerText = dataNasabah.length;
 
-        // Buat daftar tombol kirim
         let tbody = document.getElementById('tabel-kirim-broadcast');
         tbody.innerHTML = '';
         
@@ -998,7 +973,6 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
             let valid = true;
             if(hp === '') valid = false;
             
-            // Format nomor HP
             if (hp.startsWith('8')) hp = '62' + hp;
             else if (hp.startsWith('0')) hp = '62' + hp.substring(1);
 
@@ -1018,10 +992,7 @@ fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www
     }
 
     function eksekusiWa(hp, idBaris) {
-        // Ganti tombol menjadi label "Terkirim" agar tidak bingung mana yang sudah diklik
         document.getElementById(`status-kirim-${idBaris}`).innerHTML = `<span class="badge bg-secondary"><i class="bi bi-check2-all me-1"></i> Terbuka</span>`;
-        
-        // Buka WhatsApp
         window.open(`https://wa.me/${hp}?text=${encodeURIComponent(pesanBroadcastGlobal)}`, '_blank');
     }
 </script>
