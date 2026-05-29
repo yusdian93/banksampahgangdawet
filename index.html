@@ -692,11 +692,13 @@
             .finally(() => btnSubmit.disabled = false);
     }
 
-    // =========================================================
-    // 4. FITUR EDIT & HAPUS NASABAH
+// =========================================================
+    // 4. FITUR EDIT & HAPUS NASABAH (SUDAH DIPERBAIKI)
     // =========================================================
     function editNasabah(id) {
-        let nasabah = dataNasabah.find(n => n.id === id);
+        // PERBAIKAN: Memaksa ID menjadi teks (String) agar selalu cocok saat dicari
+        let nasabah = dataNasabah.find(n => String(n.id) === String(id));
+        
         if (!nasabah) return alert("Data tidak ditemukan!");
 
         let namaBaru = prompt("Edit Nama Lengkap Nasabah:", nasabah.nama);
@@ -713,7 +715,7 @@
         formData.append('nama', namaBaru);
         formData.append('hp', hpBaru.trim());
 
-        document.body.style.cursor = 'wait'; 
+        document.body.style.cursor = 'wait'; // Ubah kursor jadi loading
 
         fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
         .then(response => response.text()) 
