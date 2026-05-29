@@ -570,7 +570,7 @@
                 document.getElementById('formKategori').reset();
                 loadDataDatabase(); 
             })
-            .catch(error => alert('Gagal menyimpan kategori.'))
+            .catch(error => alert('Gagal menyimpan. Laporan error: ' + error.message))
             .finally(() => { btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="bi bi-save me-2"></i>Simpan Kategori'; });
     }
 
