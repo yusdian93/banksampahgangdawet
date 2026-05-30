@@ -109,7 +109,7 @@
         }
         .navbar-brand { font-weight: 800; letter-spacing: -0.5px; color: var(--primary-dark) !important; font-size: 1.25rem; }
         .navbar-brand i { color: var(--primary-main); background: rgba(16, 185, 129, 0.1); padding: 8px; border-radius: 12px; }
-        .nav-link { color: var(--text-muted) !important; font-weight: 600; transition: all 0.3s; padding: 10px 18px !important; border-radius: 14px; margin: 0 4px; font-size: 0.9rem; cursor: pointer; }
+        .nav-link { color: var(--text-muted) !important; font-weight: 600; transition: all 0.3s; padding: 8px 12px !important; border-radius: 12px; margin: 0 3px; font-size: 0.85rem; cursor: pointer; white-space: nowrap; }
         .nav-link:hover { color: var(--primary-main) !important; background-color: rgba(16, 185, 129, 0.05); }
         .nav-link.active-tab { color: #ffffff !important; background: linear-gradient(135deg, var(--primary-main), var(--primary-dark)); box-shadow: 0 8px 16px rgba(5, 150, 105, 0.25); }
         .nav-link.rekap-tab { border: 1px solid var(--border-color); color: var(--text-main) !important; }
@@ -178,7 +178,7 @@
 <body>
 
 <div class="nav-wrapper">
-    <nav class="navbar navbar-expand-lg container">
+    <nav class="navbar navbar-expand-xl container-fluid" style="width: 96%; max-width: 1400px;">
         <div class="container-fluid px-2">
             <span class="navbar-brand d-flex align-items-center">
                 <i class="bi bi-recycle fs-5 me-2"></i> Sistem Bank Sampah
@@ -196,7 +196,7 @@
                     <li class="nav-link nav-btn" onclick="showTab('ceksaldo', this)"><i class="bi bi-wallet2 me-2"></i>Cek Saldo</li>
                     <li class="nav-link nav-btn" onclick="showTab('bukubesar', this)"><i class="bi bi-journal-bookmark-fill me-2"></i>Buku Besar</li>
                     <li class="nav-link nav-btn" onclick="showTab('jadwal', this)"><i class="bi bi-calendar-event me-2"></i>Jadwal</li>
-                    <li class="nav-link nav-btn rekap-tab ms-lg-3" onclick="showTab('laporan', this)"><i class="bi bi-bar-chart-fill me-2"></i>Rekapitulasi</li>
+                    <li class="nav-link nav-btn rekap-tab" onclick="showTab('laporan', this)"><i class="bi bi-bar-chart-fill me-2"></i>Rekapitulasi</li>
                 </ul>
             </div>
         </div>
