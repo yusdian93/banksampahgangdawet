@@ -202,6 +202,54 @@
             body.mode-bukubesar .card { box-shadow: none; border: 1px solid #ccc; margin-top:0; border-radius: 0; }
             @page { margin: 15mm; }
         }
+
+        /* ============================================== */
+        /* TEMA KACA BURAM (GLASSMORPHISM) PREMIUM        */
+        /* ============================================== */
+        :root {
+            --card-bg: rgba(255, 255, 255, 0.65); /* Putih tembus pandang */
+            --border-color: rgba(255, 255, 255, 0.5); /* Garis pembatas kaca */
+        }
+        
+        .card {
+            background: var(--card-bg) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05) !important;
+            border: 1px solid var(--border-color) !important;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.4) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color) !important;
+        }
+
+        .table-responsive {
+            background: rgba(255, 255, 255, 0.3) !important;
+            border: 1px solid var(--border-color) !important;
+        }
+        
+        .table thead th {
+            background-color: rgba(255, 255, 255, 0.5) !important;
+            border-bottom: 1px solid var(--border-color) !important;
+        }
+        
+        .table td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important;
+        }
+        
+        .form-control, .form-select {
+            background-color: rgba(255, 255, 255, 0.5) !important;
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color) !important;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(255, 255, 255, 0.85) !important;
+        }
+
     </style>
 </head>
 <body>
