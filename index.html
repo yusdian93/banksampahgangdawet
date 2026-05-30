@@ -12,22 +12,22 @@
     <style>
         :root {
             /* TEMA: ECO-PREMIUM FINTECH */
-            --primary-dark: #064E3B;
-            --primary-main: #059669;
-            --primary-light: #D1FAE5;
-            --bg-color: #92BBA2;
-            --text-main: #0F172A;
-            --text-muted: #64748B;
+            --primary-dark: #064E3B; /* Hijau Emerald Tua */
+            --primary-main: #059669; /* Hijau Emerald Cerah */
+            --primary-light: #D1FAE5; /* Hijau Mint Super Halus */
+            --bg-color: #92BBA2; /* Hijau Matcha/Sage pekat */
+            --text-main: #0F172A; /* Biru Dongker Kehitaman */
+            --text-muted: #64748B; /* Abu-abu Slate */
             
-            /* GLASSMORPHISM */
-            --card-bg: rgba(255, 255, 255, 0.65);
-            --border-color: rgba(255, 255, 255, 0.5);
+            /* TEMA KACA BURAM (GLASSMORPHISM) */
+            --card-bg: rgba(255, 255, 255, 0.65); /* Putih tembus pandang */
+            --border-color: rgba(255, 255, 255, 0.5); /* Garis pembatas kaca */
             
             --whatsapp-green: #25D366; 
             --whatsapp-dark: #128C7E;
         }
 
-        /* DASHBOARD CARDS */
+        /* GAYA KARTU DASBOR MODERN */
         .stat-card-modern {
             border: none;
             border-radius: 24px;
@@ -43,10 +43,12 @@
             justify-content: space-between;
             min-height: 160px;
         }
+
         .stat-card-modern:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
         }
+
         .stat-card-icon-bg {
             position: absolute;
             right: -15px;
@@ -57,22 +59,26 @@
             z-index: -1;
             transition: all 0.4s ease;
         }
+
         .stat-card-modern:hover .stat-card-icon-bg {
             transform: rotate(0deg) scale(1.1);
             opacity: 0.25;
         }
+
         .stat-card-title-modern {
             font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
             letter-spacing: 1.5px; opacity: 0.85; margin-bottom: 5px;
         }
+
         .stat-card-value-modern {
             font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
+
         .stat-card-subtitle {
             font-size: 0.8rem; font-weight: 500; opacity: 0.8; margin-top: 15px; display: flex; align-items: center;
         }
 
-        /* ATM BACKGROUNDS */
+        /* KARTU ATM REALISTIS */
         .bg-atm-navy { 
             background: linear-gradient(135deg, rgba(30, 58, 138, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), 
                         url('https://images.unsplash.com/photo-1613243555988-441166d4d6fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80') center/cover no-repeat;
@@ -109,7 +115,7 @@
         .nav-link.rekap-tab { border: 1px solid var(--border-color); color: var(--text-main) !important; }
         .nav-link.rekap-tab.active-tab { border: none; }
         
-        /* GLASSMORPHISM ELEMENTS */
+        /* KOMPONEN KACA BURAM */
         .card { 
             border-radius: 24px; background: var(--card-bg) !important; 
             backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
@@ -151,7 +157,7 @@
         .table td { padding: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important; color: var(--text-main); }
         .badge-sampah { background-color: #ecfdf5; color: var(--primary-dark); padding: 6px 12px; border-radius: 10px; font-size: 0.8rem; font-weight: 700; border: 1px solid #a7f3d0; }
         
-        /* APP TITLES */
+        /* GAYA JUDUL APLIKASI KONTRAST */
         .app-title { font-weight: 800; color: #022C22; letter-spacing: -1px; font-size: 2.2rem; text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4); margin-bottom: 5px; }
         .app-subtitle { color: #1E293B; font-weight: 700; letter-spacing: 0.5px; font-size: 1rem; }
         
@@ -208,7 +214,6 @@
         </div>
         
         <div class="row mt-4 g-4">
-            <!-- Kartu 1: Total Transaksi -->
             <div class="col-12 col-md-4">
                 <div class="stat-card-modern bg-atm-navy">
                     <i class="bi bi-arrow-left-right stat-card-icon-bg"></i>
@@ -225,7 +230,6 @@
                 </div>
             </div>
 
-            <!-- Kartu 2: Nasabah Aktif -->
             <div class="col-12 col-md-4">
                 <div class="stat-card-modern bg-atm-orange">
                     <i class="bi bi-person-badge-fill stat-card-icon-bg"></i>
@@ -242,7 +246,6 @@
                 </div>
             </div>
 
-            <!-- Kartu 3: Kewajiban Saldo -->
             <div class="col-12 col-md-4">
                 <div class="stat-card-modern bg-atm-black">
                     <i class="bi bi-credit-card-fill stat-card-icon-bg"></i>
@@ -281,7 +284,6 @@
         </div>
     </div>
 
-    <!-- SEMUA TAB KONTEN LAINNYA -->
     <div id="nasabah" class="tab-content" style="display:none;">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -555,7 +557,6 @@
     // =========================================================
     const scriptURL ='https://script.google.com/macros/s/AKfycbyCW5fCug2IiaDsqxtqwExUyVzJe_UihHyISfmUGpAgVTQOGbRnqfkUNXi3e7r_Lm8t/exec';
     
-    // VARIABEL DATA
     let dataNasabah = []; let dataTransaksi = []; let dataKategori = []; 
 
     function loadDataDatabase() {
@@ -638,8 +639,7 @@
         formData.append('action', 'tambahTransaksi'); formData.append('id', Date.now()); formData.append('tgl', tgl); formData.append('nama', nama); formData.append('jenis', jenisBersih); formData.append('berat', berat); formData.append('total', total);
         let btnSubmit = e.target.querySelector('button[type="submit"]'); btnSubmit.disabled = true; btnSubmit.innerHTML = 'Memproses...';
         fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
-            .then(response => { alert(`Transaksi Berhasil!
-Jurnal Umum dan Buku Besar otomatis disesuaikan.`); document.getElementById('formSetor').reset(); loadDataDatabase(); showTab('dashboard', document.querySelector('.nav-btn')); })
+            .then(response => { alert(`Transaksi Berhasil!\nJurnal Umum dan Buku Besar otomatis disesuaikan.`); document.getElementById('formSetor').reset(); loadDataDatabase(); showTab('dashboard', document.querySelector('.nav-btn')); })
             .finally(() => { btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="bi bi-check-circle me-2"></i>Konfirmasi Setoran'; });
     }
 
@@ -669,9 +669,7 @@ Jurnal Umum dan Buku Besar otomatis disesuaikan.`); document.getElementById('for
     }
 
     function hapusNasabah(id) {
-        if(confirm('PERINGATAN!
-
-Anda yakin ingin menghapus data nasabah ini secara permanen dari server?')) {
+        if(confirm('PERINGATAN!\n\nAnda yakin ingin menghapus data nasabah ini secara permanen dari server?')) {
             let formData = new URLSearchParams(); formData.append('action', 'deleteNasabah'); formData.append('id', id); document.body.style.cursor = 'wait';
             fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() }).then(response => response.text()).then(text => {
                 if (text.includes("Sukses")) { alert("Berhasil: Data nasabah telah dihapus."); loadDataDatabase(); } else { alert(text); }
@@ -728,13 +726,7 @@ Anda yakin ingin menghapus data nasabah ini secara permanen dari server?')) {
     function kirimWaStruk(index) {
         let t = dataTransaksi[index]; let n = dataNasabah.find(x => x.nama === t.nama); let hp = n && n.hp ? String(n.hp).trim() : ''; 
         if(hp.startsWith('8')) hp = '62' + hp; else if(hp.startsWith('0')) hp = '62' + hp.substring(1);
-        let pesan = `*STRUK BANK SAMPAH*
-Tgl: ${t.tgl}
-Nasabah: *${t.nama}*
-
-▪ Aktivitas: ${t.jenis}
-▪ Volume: ${t.berat} Kg
-*TOTAL: Rp ${Math.abs(t.total).toLocaleString('id-ID')}*`;
+        let pesan = `*STRUK BANK SAMPAH*\nTgl: ${t.tgl}\nNasabah: *${t.nama}*\n\n▪ Aktivitas: ${t.jenis}\n▪ Volume: ${t.berat} Kg\n*TOTAL: Rp ${Math.abs(t.total).toLocaleString('id-ID')}*`;
         window.open(`https://wa.me/${hp}?text=${encodeURIComponent(pesan)}`, '_blank');
     }
 
@@ -767,10 +759,7 @@ Nasabah: *${t.nama}*
         let totRp = 0, totKg = 0; dataTransaksi.filter(t => t.nama === nama).forEach(t => { totRp += t.total; totKg += t.berat; });
         let n = dataNasabah.find(x => x.nama === nama); let hp = n && n.hp ? String(n.hp).trim() : ''; 
         if(hp.startsWith('8')) hp = '62' + hp; else if(hp.startsWith('0')) hp = '62' + hp.substring(1);
-        let pesan = `Yth. *${nama}*,
-Berikut posisi saldo Anda:
-📊 Volume: *${totKg.toFixed(1)} Kg*
-💳 Saldo: *Rp ${totRp.toLocaleString('id-ID')}*`;
+        let pesan = `Yth. *${nama}*,\nBerikut posisi saldo Anda:\n📊 Volume: *${totKg.toFixed(1)} Kg*\n💳 Saldo: *Rp ${totRp.toLocaleString('id-ID')}*`;
         window.open(`https://wa.me/${hp}?text=${encodeURIComponent(pesan)}`, '_blank');
     }
 
@@ -808,10 +797,8 @@ Berikut posisi saldo Anda:
     }
 
     function eksporExcel() {
-        let csv = "data:text/csv;charset=utf-8,Tanggal;Nasabah;Aktivitas;Volume(Kg);Nilai(Rp)
-";
-        dataTransaksi.forEach(r => csv += `${r.tgl};${r.nama};${r.jenis};${r.berat};${r.total}
-`);
+        let csv = "data:text/csv;charset=utf-8,Tanggal;Nasabah;Aktivitas;Volume(Kg);Nilai(Rp)\n";
+        dataTransaksi.forEach(r => csv += `${r.tgl};${r.nama};${r.jenis};${r.berat};${r.total}\n`);
         let link = document.createElement("a"); link.setAttribute("href", encodeURI(csv));
         link.setAttribute("download", "Laporan.csv"); document.body.appendChild(link); link.click(); link.remove();
     }
@@ -825,17 +812,8 @@ Berikut posisi saldo Anda:
         let tglInput = document.getElementById('tglJadwal').value; let pesanTamb = document.getElementById('pesanTambahan').value;
         if(!tglInput) return alert("Harap isi Tanggal Pelaksanaan terlebih dahulu!");
         let tglObj = new Date(tglInput); let opsiTgl = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; let tglFormat = tglObj.toLocaleDateString('id-ID', opsiTgl);
-        pesanBroadcastGlobal = `*PENGUMUMAN BANK SAMPAH*
-
-Halo Bapak/Ibu Warga,
-Kami menginformasikan bahwa jadwal penyetoran Bank Sampah akan dilaksanakan pada:
-
-📅 *Tanggal:* ${tglFormat}
-
-`;
-        if (pesanTamb.trim() !== "") { pesanBroadcastGlobal += `📝 *Catatan:* ${pesanTamb}
-
-`; }
+        pesanBroadcastGlobal = `*PENGUMUMAN BANK SAMPAH*\n\nHalo Bapak/Ibu Warga,\nKami menginformasikan bahwa jadwal penyetoran Bank Sampah akan dilaksanakan pada:\n\n📅 *Tanggal:* ${tglFormat}\n\n`;
+        if (pesanTamb.trim() !== "") { pesanBroadcastGlobal += `📝 *Catatan:* ${pesanTamb}\n\n`; }
         pesanBroadcastGlobal += `Mari kita jaga kebersihan lingkungan dan tingkatkan tabungan sampah kita. Terima kasih! ♻️`;
         document.getElementById('previewPesan').innerText = pesanBroadcastGlobal; document.getElementById('areaBroadcast').style.display = 'block'; document.getElementById('totalKirim').innerText = dataNasabah.length;
         let tbody = document.getElementById('tabel-kirim-broadcast'); tbody.innerHTML = '';
@@ -856,23 +834,11 @@ Kami menginformasikan bahwa jadwal penyetoran Bank Sampah akan dilaksanakan pada
     let pesanBroadcastHargaGlobal = "";
     function buatBroadcastHarga() {
         let catatan = document.getElementById('catatanHarga').value.trim();
-        pesanBroadcastHargaGlobal = `*UPDATE HARGA ACUAN MATERIAL* ♻️
-*BANK SAMPAH GANG DAWET*
-
-Halo Bapak/Ibu Nasabah,
-Berikut adalah rincian daftar harga beli terbaru untuk setiap material sampah anorganik terhitung hari ini:
-
-`;
-        if(dataKategori.length === 0) { pesanBroadcastHargaGlobal += `_(Belum ada data kategori material di database)_
-
-`; } else {
-            dataKategori.forEach(k => { pesanBroadcastHargaGlobal += `▪️ *${k.nama_kategori}:* Rp ${parseInt(k.harga).toLocaleString('id-ID')} / Kg
-`; }); pesanBroadcastHargaGlobal += `
-`;
+        pesanBroadcastHargaGlobal = `*UPDATE HARGA ACUAN MATERIAL* ♻️\n*BANK SAMPAH GANG DAWET*\n\nHalo Bapak/Ibu Nasabah,\nBerikut adalah rincian daftar harga beli terbaru untuk setiap material sampah anorganik terhitung hari ini:\n\n`;
+        if(dataKategori.length === 0) { pesanBroadcastHargaGlobal += `_(Belum ada data kategori material di database)_\n\n`; } else {
+            dataKategori.forEach(k => { pesanBroadcastHargaGlobal += `▪️ *${k.nama_kategori}:* Rp ${parseInt(k.harga).toLocaleString('id-ID')} / Kg\n`; }); pesanBroadcastHargaGlobal += `\n`;
         }
-        if (catatan !== "") { pesanBroadcastHargaGlobal += `📝 *Catatan Admin:* ${catatan}
-
-`; }
+        if (catatan !== "") { pesanBroadcastHargaGlobal += `📝 *Catatan Admin:* ${catatan}\n\n`; }
         pesanBroadcastHargaGlobal += `"Dengan Memilah Sampah, Kita Ubah yang Terbuang Menjadi Bernilai" 💚`;
         document.getElementById('previewPesanHarga').innerText = pesanBroadcastHargaGlobal; document.getElementById('areaBroadcastHarga').style.display = 'block'; document.getElementById('totalKirimHarga').innerText = dataNasabah.length;
         let tbody = document.getElementById('tabel-kirim-broadcast-harga'); tbody.innerHTML = '';
