@@ -729,7 +729,7 @@ function simpanKategori(e) {
         dataKategori.forEach(k => {
             let jenis = k.jenis_material ? k.jenis_material : '-';
             tbody.innerHTML += `<tr>
-                <td class="align-middle fw-medium" style="color: #64748b; font-size: 0.95rem;">${jenis}</td>
+                <td class="align-middle fw-bold" style="color: #64748b;">${jenis}</td>
                 <td class="align-middle fw-bold" style="color: var(--primary-dark);">${k.nama_kategori}</td>
                 <td class="align-middle text-success fw-bold">Rp ${parseInt(k.harga).toLocaleString('id-ID')}</td>
                 <td class="text-center align-middle">
