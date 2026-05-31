@@ -168,9 +168,30 @@
         .btn-outline-wa { color: var(--whatsapp-green) !important; border-color: var(--whatsapp-green) !important; background-color: transparent !important; }
         .btn-outline-wa:hover { color: white !important; background-color: var(--whatsapp-green) !important; border-color: var(--whatsapp-green) !important; }
         
-        .table-responsive { background: rgba(255, 255, 255, 0.3) !important; border-radius: 16px; border: 1px solid var(--border-color) !important; }
-        .table { margin-bottom: 0; vertical-align: middle; background: transparent !important; }
-        .table thead th { background-color: rgba(255, 255, 255, 0.5) !important; color: var(--text-muted); font-weight: 700; border-bottom: 1px solid var(--border-color) !important; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; padding: 16px; }
+        /* PERBAIKAN SCROLL TABEL UNTUK LAPTOP & HP */
+     .table-responsive { 
+         background: rgba(255, 255, 255, 0.3) !important; 
+         border-radius: 16px; 
+         border: 1px solid var(--border-color) !important; 
+         max-height: 450px; /* Membatasi tinggi tabel memunculkan fungsi scroll */
+         overflow-y: auto;  /* Memunculkan scrollbar vertikal di laptop */
+         overflow-x: auto;
+     }
+     .table { margin-bottom: 0; vertical-align: middle; background: transparent !important; }
+     /* Membuat judul kolom tabel tetap menempel di atas (Sticky) saat di-scroll */
+     .table thead th { 
+         position: sticky; 
+         top: 0; 
+         z-index: 2; 
+         background-color: #f1f5f9 !important; /* Warna solid agar teks di bawahnya tertutup saat discroll */
+         color: var(--text-muted); 
+         font-weight: 700; 
+         border-bottom: 1px solid var(--border-color) !important; 
+         font-size: 0.75rem; 
+         text-transform: uppercase; 
+         letter-spacing: 1px; 
+         padding: 16px; 
+     }
         .table td { padding: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important; color: var(--text-main); }
         .badge-sampah { background-color: #ecfdf5; color: var(--primary-dark); padding: 6px 12px; border-radius: 10px; font-size: 0.8rem; font-weight: 700; border: 1px solid #a7f3d0; }
         
