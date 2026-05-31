@@ -584,17 +584,16 @@
         if(btnRefresh) btnRefresh.innerText = "Memuat data...";
         fetch(scriptURL).then(response => response.json()).then(data => {
             dataNasabah = data.nasabah || []; dataTransaksi = data.transaksi || []; dataKategori = data.kategori || [];
-// PERBAIKAN FORMAT TANGGAL MESIN KE FORMAT INDONESIA
+// PERBAIKAN FORMAT TANGGAL (ANTI-GESER ZONA WAKTU)
             dataTransaksi.forEach(t => {
                 if (typeof t.tgl === 'string' && t.tgl.includes('T') && t.tgl.includes('Z')) {
-                    let d = new Date(t.tgl);
-                    let tgl = d.getDate().toString().padStart(2, '0');
-                    let bln = (d.getMonth() + 1).toString().padStart(2, '0');
-                    let thn = d.getFullYear();
-                    let jam = d.getHours().toString().padStart(2, '0');
-                    let mnt = d.getMinutes().toString().padStart(2, '0');
-                    let dtk = d.getSeconds().toString().padStart(2, '0');
-                    t.tgl = `${tgl}-${bln}-${thn} T${jam}:${mnt}:${dtk}`;
+                    // Memecah tulisan "2026-05-31T08:28:00.000Z" menjadi bagian terpisah
+                    let pisah = t.tgl.split('T');
+                    let tanggalArr = pisah[0].split('-'); // Menghasilkan bagian: [2026, 05, 31]
+                    let jamArr = pisah[1].split('.')[0]; // Menghasilkan bagian: "08:28:00"
+                    
+                    // Susun ulang menjadi format: 31-05-2026 08:28:00
+                    t.tgl = `${tanggalArr[2]}-${tanggalArr[1]}-${tanggalArr[0]} ${jamArr}`;
                 }
             });
  
