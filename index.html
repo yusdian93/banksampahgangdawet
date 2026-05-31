@@ -361,6 +361,10 @@
                     <h5 class="fw-bold mb-4" style="color: var(--primary-dark);"><i class="bi bi-tag me-2 text-success"></i>Tambah Kategori Material Baru</h5>
                     <form id="formKategori" onsubmit="simpanKategori(event)">
                         <div class="mb-4">
+                            <label>Jenis Material (Contoh: Plastik, Besi, Kertas)</label>
+                            <input type="text" id="jenisKategori" class="form-control" placeholder="Contoh: Plastik" required>
+                        </div>
+			<div class="mb-4">
                             <label>Nama Material (Contoh: Plastik PET Bersih)</label>
                             <input type="text" id="namaKategori" class="form-control" required>
                         </div>
@@ -374,7 +378,7 @@
                     <h5 class="fw-bold mb-4" style="color: var(--primary-dark);"><i class="bi bi-list-ul me-2 text-success"></i>Daftar Kategori Persediaan</h5>
                     <div class="table-responsive">
                         <table class="table table-hover">
-                            <thead><tr><th>Nama Material</th><th>Harga / Kg</th><th class="text-center">Manajemen</th></tr></thead>
+                            <thead><tr><th>Jenis Material</th><th>Nama Material</th><th>Harga / Kg</th><th class="text-center">Manajemen</th></tr></thead>
                             <tbody id="tabel-daftar-kategori"></tbody>
                         </table>
                     </div>
@@ -596,7 +600,7 @@
     // =========================================================
     // 1. URL GOOGLE APPS SCRIPT
     // =========================================================
-    const scriptURL ='https://script.google.com/macros/s/AKfycbyCW5fCug2IiaDsqxtqwExUyVzJe_UihHyISfmUGpAgVTQOGbRnqfkUNXi3e7r_Lm8t/exec';
+    const scriptURL ='https://script.google.com/macros/s/AKfycbxZvvr6Vlujb81W1rdgebxyt5OjEfxu5jo7u6hSkpHYDBXUxVkWcLf1s1kua--QmLs/exec';
     
     let dataNasabah = []; let dataTransaksi = []; let dataKategori = []; 
 
@@ -680,9 +684,69 @@
         });
     }
 
-function editKategori(id) {
+function simpanKategori(e) {
+        e.preventDefault();
+        let jenis = document.getElementById('jenisKategori').value.trim();
+        let nama = document.getElementById('namaKategori').value.trim();
+        let harga = document.getElementById('hargaKategori').value.trim();
+        
+        let formData = new URLSearchParams();
+        formData.append('action', 'tambahKategori');
+        formData.append('id', Date.now());
+        formData.append('jenis_material', jenis); // Data baru dikirim ke database
+        formData.append('nama_kategori', nama);
+        formData.append('harga', harga);
+
+        let btnSubmit = e.target.querySelector('button[type="submit"]');
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = 'Menyimpan...';
+
+        fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
+            .then(response => {
+                alert('Kategori berhasil ditambahkan.');
+                document.getElementById('formKategori').reset();
+                loadDataDatabase(); 
+            })
+            .catch(error => alert('Gagal menyimpan. Laporan error: ' + error.message))
+            .finally(() => { btnSubmit.disabled = false; btnSubmit.innerHTML = '<i class="bi bi-save me-2"></i>Simpan Kategori'; });
+    }
+
+    function hapusKategori(id) {
+        if(confirm('Yakin ingin menghapus kategori ini?')) {
+            let formData = new URLSearchParams(); formData.append('action', 'deleteKategori'); formData.append('id', id);
+            document.body.style.cursor = 'wait';
+            fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
+                .then(response => { alert("Kategori berhasil dihapus."); loadDataDatabase(); })
+                .finally(() => { document.body.style.cursor = 'default'; });
+        }
+    }
+
+    function updateTabelKategori() {
+        let tbody = document.getElementById('tabel-daftar-kategori');
+        tbody.innerHTML = '';
+        if(dataKategori.length === 0) return tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted py-5">Belum ada kategori.</td></tr>`;
+        
+        dataKategori.forEach(k => {
+            let jenis = k.jenis_material ? k.jenis_material : '-';
+            tbody.innerHTML += `<tr>
+                <td class="align-middle"><span class="badge bg-light text-dark border">${jenis}</span></td>
+                <td class="align-middle fw-bold" style="color: var(--primary-dark);">${k.nama_kategori}</td>
+                <td class="align-middle text-success fw-bold">Rp ${parseInt(k.harga).toLocaleString('id-ID')}</td>
+                <td class="text-center align-middle">
+                    <button class="btn btn-sm btn-outline-primary py-1 px-2 me-2" onclick="editKategori('${k.id}')"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="hapusKategori('${k.id}')"><i class="bi bi-trash3"></i></button>
+                </td>
+            </tr>`;
+        });
+    }
+
+    function editKategori(id) {
         let kategori = dataKategori.find(k => String(k.id) === String(id));
         if (!kategori) return alert("Data kategori tidak ditemukan!");
+
+        let jenisBaru = prompt("Edit Jenis Material (Plastik/Kertas/Logam):", kategori.jenis_material || '');
+        if (jenisBaru === null) return;
+        jenisBaru = jenisBaru.trim();
 
         let namaBaru = prompt("Edit Nama Material:", kategori.nama_kategori);
         if (namaBaru === null) return;
@@ -697,6 +761,7 @@ function editKategori(id) {
         let formData = new URLSearchParams(); 
         formData.append('action', 'editKategori'); 
         formData.append('id', id); 
+        formData.append('jenis_material', jenisBaru); 
         formData.append('nama_kategori', namaBaru); 
         formData.append('harga', hargaBaru);
         
