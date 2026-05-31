@@ -583,7 +583,21 @@
         let btnRefresh = document.getElementById('dash-transaksi');
         if(btnRefresh) btnRefresh.innerText = "Memuat data...";
         fetch(scriptURL).then(response => response.json()).then(data => {
-            dataNasabah = data.nasabah || []; dataTransaksi = data.transaksi || []; dataKategori = data.kategori || []; 
+            dataNasabah = data.nasabah || []; dataTransaksi = data.transaksi || []; dataKategori = data.kategori || [];
+// PERBAIKAN FORMAT TANGGAL MESIN KE FORMAT INDONESIA
+            dataTransaksi.forEach(t => {
+                if (typeof t.tgl === 'string' && t.tgl.includes('T') && t.tgl.includes('Z')) {
+                    let d = new Date(t.tgl);
+                    let tgl = d.getDate().toString().padStart(2, '0');
+                    let bln = (d.getMonth() + 1).toString().padStart(2, '0');
+                    let thn = d.getFullYear();
+                    let jam = d.getHours().toString().padStart(2, '0');
+                    let mnt = d.getMinutes().toString().padStart(2, '0');
+                    let dtk = d.getSeconds().toString().padStart(2, '0');
+                    t.tgl = `${tgl}-${bln}-${thn} T${jam}:${mnt}:${dtk}`;
+                }
+            });
+ 
             updateTabelNasabah(); updateTabelKategori(); updateDropdownKategori();             
             updateDropdownNasabah('pilihNasabah'); if(document.getElementById('pilihNasabahSaldo')) updateDropdownNasabah('pilihNasabahSaldo');
             updateDashboard(); updateBukuBesar(); updateLaporan();
