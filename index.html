@@ -639,8 +639,42 @@
         dataKategori.forEach(k => {
             tbody.innerHTML += `<tr><td class="align-middle fw-bold" style="color: var(--primary-dark);">${k.nama_kategori}</td>
                 <td class="align-middle text-success fw-bold">Rp ${parseInt(k.harga).toLocaleString('id-ID')}</td>
-                <td class="text-center align-middle"><button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="hapusKategori('${k.id}')"><i class="bi bi-trash3"></i></button></td></tr>`;
+                <td class="text-center align-middle">
+                    <button class="btn btn-sm btn-outline-primary py-1 px-2 me-2" onclick="editKategori('${k.id}')"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="hapusKategori('${k.id}')"><i class="bi bi-trash3"></i></button>
+                </td></tr>`;
         });
+    }
+
+function editKategori(id) {
+        let kategori = dataKategori.find(k => String(k.id) === String(id));
+        if (!kategori) return alert("Data kategori tidak ditemukan!");
+
+        let namaBaru = prompt("Edit Nama Material:", kategori.nama_kategori);
+        if (namaBaru === null) return;
+        namaBaru = namaBaru.trim();
+        if (namaBaru === '') return alert("Nama material tidak boleh kosong!");
+
+        let hargaBaru = prompt("Edit Harga per Kg (Rp):", kategori.harga);
+        if (hargaBaru === null) return;
+        hargaBaru = hargaBaru.trim();
+        if (hargaBaru === '' || isNaN(hargaBaru)) return alert("Harga harus berupa angka yang valid!");
+
+        let formData = new URLSearchParams(); 
+        formData.append('action', 'editKategori'); 
+        formData.append('id', id); 
+        formData.append('nama_kategori', namaBaru); 
+        formData.append('harga', hargaBaru);
+        
+        document.body.style.cursor = 'wait';
+        fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
+        .then(response => response.text())
+        .then(text => {
+            alert("Berhasil: Data kategori persediaan telah diperbarui."); 
+            loadDataDatabase();
+        })
+        .catch(error => alert("Gagal memperbarui data. Cek koneksi internet."))
+        .finally(() => { document.body.style.cursor = 'default'; });
     }
 
     function updateDropdownKategori() {
