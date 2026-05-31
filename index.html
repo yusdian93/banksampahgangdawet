@@ -861,7 +861,13 @@ function simpanKategori(e) {
         let total = harga * berat; let now = new Date(); let tgl = now.toLocaleDateString('id-ID') + ' ' + now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
         let jenisBersih = jenisSampah.split(' (')[0]; 
         let formData = new URLSearchParams();
-        formData.append('action', 'tambahTransaksi'); formData.append('id', Date.now()); formData.append('tgl', tgl); formData.append('nama', nama); formData.append('jenis', jenisBersih); formData.append('berat', berat); formData.append('total', total);
+        formData.append('action', 'tambahTransaksi'); 
+formData.append('id', Date.now()); 
+formData.append('tgl', tgl); 
+formData.append('nama', nama); 
+formData.append('jenis', jenisBersih); 
+formData.append('berat', berat.toString().replace('.', ',')); /* Mengubah titik jadi koma agar Google Sheets tidak mengiranya sebagai Tanggal */
+formData.append('total', total);
         let btnSubmit = e.target.querySelector('button[type="submit"]'); btnSubmit.disabled = true; btnSubmit.innerHTML = 'Memproses...';
         fetch(scriptURL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() })
             .then(response => { alert(`Transaksi Berhasil!\nJurnal Umum dan Buku Besar otomatis disesuaikan.`); document.getElementById('formSetor').reset(); loadDataDatabase(); showTab('dashboard', document.querySelector('.nav-btn')); })
