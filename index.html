@@ -454,9 +454,25 @@
                             <select id="pilihNasabah" class="form-select" required></select>
                         </div>
                         <div class="mb-4">
-                            <label>Kategori Persediaan Sampah</label>
-                            <select id="pilihSampah" class="form-select" required><option value="" disabled selected>-- Pilih Jenis Material --</option></select>
-                        </div>
+                         <label>Pilih Jenis Material</label>
+                         <select id="pilihJenisMaterialSetor" class="form-select" onchange="filterDropdownKategori()" required>
+                             <option value="" disabled selected>-- Klik Pilih Jenis Material --</option>
+                             <option value="Plastik">Plastik</option>
+                             <option value="Botol Kaca">Botol Kaca</option>
+                             <option value="Besi">Besi</option>
+                             <option value="Kertas">Kertas</option>
+                             <option value="Logam">Logam</option>
+                             <option value="Elektronik">Elektronik</option>
+                             <option value="Minyak">Minyak</option>
+                         </select>
+                     </div>
+
+                     <div class="mb-4">
+                         <label>Nama Material</label>
+                         <select id="pilihSampah" class="form-select" required>
+                             <option value="" disabled selected>-- Pilih Jenis Material di atas terlebih dahulu --</option>
+                         </select>
+                     </div>
                         <div class="mb-5">
                             <label>Volume Timbangan Bersih</label>
                             <div class="input-group">
@@ -807,9 +823,35 @@ function simpanKategori(e) {
     }
 
     function updateDropdownKategori() {
-        let sel = document.getElementById('pilihSampah'); sel.innerHTML = '<option value="" disabled selected>-- Pilih Jenis Material --</option>';
-        dataKategori.forEach(k => { sel.innerHTML += `<option value="${k.harga}">${k.nama_kategori} (Rp ${parseInt(k.harga).toLocaleString('id-ID')} / Kg)</option>`; });
-    }
+     // Fungsi ini mereset pilihan saat data baru di-load agar rapi
+     let selJenis = document.getElementById('pilihJenisMaterialSetor');
+     if(selJenis) selJenis.value = "";
+     let selNama = document.getElementById('pilihSampah'); 
+     if(selNama) selNama.innerHTML = '<option value="" disabled selected>-- Pilih Jenis Material di atas terlebih dahulu --</option>';
+ }
+
+ // Fungsi baru untuk menyaring Nama Material berdasarkan Jenis Material yang dipilih
+ function filterDropdownKategori() {
+     let jenisDipilih = document.getElementById('pilihJenisMaterialSetor').value;
+     let selNama = document.getElementById('pilihSampah'); 
+
+     // Kosongkan daftar dan beri teks arahan baru
+     selNama.innerHTML = '<option value="" disabled selected>-- Pilih Nama Material --</option>';
+
+     // Cari di database: mana material yang jenisnya SAMA dengan yang dipilih
+     let dataDisaring = dataKategori.filter(k => k.jenis_material === jenisDipilih);
+
+     // Jika belum ada data untuk jenis tersebut
+     if(dataDisaring.length === 0) {
+         selNama.innerHTML = '<option value="" disabled selected>-- Belum ada material di jenis ini --</option>';
+         return;
+     }
+
+     // Jika ada, masukkan satu per satu ke dalam pilihan Kotak 2
+     dataDisaring.forEach(k => { 
+         selNama.innerHTML += `<option value="${k.harga}">${k.nama_kategori} (Rp ${parseInt(k.harga).toLocaleString('id-ID')} / Kg)</option>`; 
+     });
+ }
 
     function simpanSetoran(e) {
         e.preventDefault();
