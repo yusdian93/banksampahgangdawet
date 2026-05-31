@@ -807,8 +807,65 @@
         link.setAttribute("download", "Laporan.csv"); document.body.appendChild(link); link.click(); link.remove();
     }
     function cetakLaporanA4() {
-        let html = `<div style="font-family:'Plus Jakarta Sans',sans-serif;"><h2 style="text-align:center;">Laporan Finansial & Persediaan</h2><h3 style="text-align:center;">BANK SAMPAH GANG DAWET</h3><p style="text-align:center;">Cetak: ${new Date().toLocaleDateString('id-ID')}</p></div>`;
-        document.getElementById('area-laporan-a4').innerHTML = html; document.body.className = 'mode-cetak'; window.print(); document.body.className = '';
+        // Mengambil angka dari layar dasbor laporan
+        let lapSampah = document.getElementById('lap-sampah').innerText;
+        let lapRupiah = document.getElementById('lap-rupiah').innerText;
+        let tabelSampah = document.getElementById('tabel-rekap-sampah').innerHTML;
+        let tabelNasabah = document.getElementById('tabel-rekap-nasabah').innerHTML;
+
+        // Menyusun desain laporan PDF yang rapi dan elegan
+        let html = `
+        <div style="font-family:'Plus Jakarta Sans',sans-serif; padding: 20px;">
+            <h2 style="text-align:center; margin-bottom: 5px; font-weight: 800;">Laporan Finansial & Persediaan</h2>
+            <h3 style="text-align:center; margin-top: 0; color: #064E3B; font-weight: 700;">BANK SAMPAH GANG DAWET</h3>
+            <p style="text-align:center; font-size: 12px; color: #64748b; margin-bottom: 30px;">Dicetak pada: ${new Date().toLocaleDateString('id-ID')} pukul ${new Date().toLocaleTimeString('id-ID')}</p>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+                <div style="border: 1px solid #cbd5e1; padding: 15px; width: 48%; border-radius: 12px;">
+                    <div style="font-size: 13px; color: #64748b; margin-bottom: 5px; font-weight: 600;">Aset Fisik (Volume Masuk)</div>
+                    <div style="font-size: 24px; font-weight: 800; color: #059669;">${lapSampah} Kg</div>
+                </div>
+                <div style="border: 1px solid #cbd5e1; padding: 15px; width: 48%; border-radius: 12px;">
+                    <div style="font-size: 13px; color: #64748b; margin-bottom: 5px; font-weight: 600;">Liabilitas (Hutang Warga)</div>
+                    <div style="font-size: 24px; font-weight: 800; color: #059669;">${lapRupiah}</div>
+                </div>
+            </div>
+
+            <h4 style="border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px; color: #0f172a; font-weight: 700;">1. Matriks Inventaris Persediaan</h4>
+            <table class="table table-bordered" style="width: 100%; margin-bottom: 30px; font-size: 14px;">
+                <thead>
+                    <tr style="background-color: #f8fafc;">
+                        <th>Kategori Material Persediaan</th>
+                        <th>Akumulasi Volume</th>
+                        <th class="text-end">Total Valuasi Aset (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${tabelSampah}
+                </tbody>
+            </table>
+
+            <h4 style="border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px; color: #0f172a; font-weight: 700;">2. Buku Besar Pembantu (Rincian Hutang)</h4>
+            <table class="table table-bordered" style="width: 100%; font-size: 14px;">
+                <thead>
+                    <tr style="background-color: #f8fafc;">
+                        <th>Identitas Kreditur (Nasabah)</th>
+                        <th>Total Volume Disetor</th>
+                        <th class="text-end">Sisa Saldo Mengendap (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${tabelNasabah}
+                </tbody>
+            </table>
+        </div>
+        `;
+        
+        // Eksekusi cetak
+        document.getElementById('area-laporan-a4').innerHTML = html; 
+        document.body.className = 'mode-cetak'; 
+        window.print(); 
+        document.body.className = '';
     }
 
     let pesanBroadcastGlobal = "";
