@@ -113,8 +113,24 @@
         .nav-link { color: var(--text-muted) !important; font-weight: 600; transition: all 0.3s; padding: 8px 12px !important; border-radius: 12px; margin: 4px 2px; font-size: 0.85rem; cursor: pointer; white-space: nowrap; }
         .nav-link:hover { color: var(--primary-main) !important; background-color: rgba(16, 185, 129, 0.05); }
         .nav-link.active-tab { color: #ffffff !important; background: linear-gradient(135deg, var(--primary-main), var(--primary-dark)); box-shadow: 0 8px 16px rgba(5, 150, 105, 0.25); }
-        .nav-link.rekap-tab { border: 1px solid var(--border-color); color: var(--text-main) !important; }
-        .nav-link.rekap-tab.active-tab { border: none; }
+        /* ============================================== */
+     /* TOMBOL REKAPITULASI KHUSUS (ORANGE JERUK)      */
+     /* ============================================== */
+     .nav-link.rekap-tab { 
+         border: 1px solid #ea580c !important; 
+         color: #ea580c !important; 
+         background: rgba(234, 88, 12, 0.05); /* Sedikit warna dasar oranye transparan */
+     }
+     .nav-link.rekap-tab:hover {
+         background: rgba(234, 88, 12, 0.15) !important;
+         color: #c2410c !important;
+     }
+     .nav-link.rekap-tab.active-tab { 
+         background: linear-gradient(135deg, #f97316, #c2410c) !important; /* Gradien Oranye Jeruk */
+         color: #ffffff !important; 
+         border: 1px solid transparent !important;
+         box-shadow: 0 8px 16px rgba(234, 88, 12, 0.3) !important; /* Efek cahaya bayangan oranye */
+     }
         
         /* KOMPONEN KACA BURAM */
         .card { 
