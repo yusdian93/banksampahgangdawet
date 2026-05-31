@@ -361,9 +361,18 @@
                     <h5 class="fw-bold mb-4" style="color: var(--primary-dark);"><i class="bi bi-tag me-2 text-success"></i>Tambah Kategori Material Baru</h5>
                     <form id="formKategori" onsubmit="simpanKategori(event)">
                         <div class="mb-4">
-                            <label>Jenis Material (Contoh: Plastik, Besi, Kertas)</label>
-                            <input type="text" id="jenisKategori" class="form-control" placeholder="Contoh: Plastik" required>
-                        </div>
+                         <label>Pilih Jenis Material</label>
+                         <select id="jenisKategori" class="form-select" required>
+                             <option value="" disabled selected>-- Klik Pilih Jenis Material --</option>
+                             <option value="Plastik">Plastik</option>
+                             <option value="Botol Kaca">Botol Kaca</option>
+                             <option value="Besi">Besi</option>
+                             <option value="Kertas">Kertas</option>
+                             <option value="Logam">Logam</option>
+                             <option value="Elektronik">Elektronik</option>
+                             <option value="Minyak">Minyak</option>
+                         </select>
+                     </div>
 			<div class="mb-4">
                             <label>Nama Material (Contoh: Plastik PET Bersih)</label>
                             <input type="text" id="namaKategori" class="form-control" required>
@@ -744,7 +753,7 @@ function simpanKategori(e) {
         let kategori = dataKategori.find(k => String(k.id) === String(id));
         if (!kategori) return alert("Data kategori tidak ditemukan!");
 
-        let jenisBaru = prompt("Edit Jenis Material (Plastik/Kertas/Logam):", kategori.jenis_material || '');
+        let jenisBaru = prompt("Edit Jenis Material\n(Ketik salah satu: Plastik, Botol Kaca, Besi, Kertas, Logam, Elektronik, Minyak):", kategori.jenis_material || '');
         if (jenisBaru === null) return;
         jenisBaru = jenisBaru.trim();
 
