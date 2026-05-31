@@ -109,7 +109,8 @@
         }
         .navbar-brand { font-weight: 800; letter-spacing: -0.5px; color: var(--primary-dark) !important; font-size: 1.25rem; }
         .navbar-brand i { color: var(--primary-main); background: rgba(16, 185, 129, 0.1); padding: 8px; border-radius: 12px; }
-        .nav-link { color: var(--text-muted) !important; font-weight: 600; transition: all 0.3s; padding: 8px 12px !important; border-radius: 12px; margin: 0 3px; font-size: 0.85rem; cursor: pointer; white-space: nowrap; }
+        /* Ukuran menu diperkecil sedikit, ditambah fungsi pelipat baris otomatis */
+        .nav-link { color: var(--text-muted) !important; font-weight: 600; transition: all 0.3s; padding: 8px 12px !important; border-radius: 12px; margin: 4px 2px; font-size: 0.85rem; cursor: pointer; white-space: nowrap; }
         .nav-link:hover { color: var(--primary-main) !important; background-color: rgba(16, 185, 129, 0.05); }
         .nav-link.active-tab { color: #ffffff !important; background: linear-gradient(135deg, var(--primary-main), var(--primary-dark)); box-shadow: 0 8px 16px rgba(5, 150, 105, 0.25); }
         .nav-link.rekap-tab { border: 1px solid var(--border-color); color: var(--text-main) !important; }
@@ -177,17 +178,19 @@
 </head>
 <body>
 
-<div class="nav-wrapper">
-    <nav class="navbar navbar-expand-xl container-fluid" style="width: 96%; max-width: 1400px;">
-        <div class="container-fluid px-2">
-            <span class="navbar-brand d-flex align-items-center">
+<div class="nav-wrapper" style="padding: 15px;">
+    <!-- Kotak dilebarkan ke ujung layar (w-100) -->
+    <nav class="navbar navbar-expand-xl w-100 mx-auto" style="max-width: 100%;">
+        <div class="container-fluid px-2 px-md-4">
+            <span class="navbar-brand d-flex align-items-center me-lg-4">
                 <i class="bi bi-recycle fs-5 me-2"></i> Sistem Bank Sampah
             </span>
             <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="bi bi-list fs-1 text-dark"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto mt-3 mt-lg-0 align-items-center">
+                <!-- Tambahan flex-wrap: wrap agar menu yang kelebihan panjang otomatis turun jadi 2 baris rapi di DALAM kotak -->
+                <ul class="navbar-nav ms-auto mt-3 mt-xl-0 align-items-center" style="flex-wrap: wrap; justify-content: flex-end;">
                     <li class="nav-link nav-btn active-tab" onclick="showTab('dashboard', this)"><i class="bi bi-grid-1x2 me-2"></i>Dashboard</li>
                     <li class="nav-link nav-btn" onclick="showTab('nasabah', this)"><i class="bi bi-people me-2"></i>Nasabah</li>
                     <li class="nav-link nav-btn" onclick="showTab('kategori', this)"><i class="bi bi-tags me-2"></i>Kategori Sampah</li>                    
